@@ -1,0 +1,87 @@
+{
+  "run_at_utc": "2026-11-04T05:37:54.309488+00:00",
+  "status": "PASS_PRELIMINARY",
+  "review_reasons": [],
+  "scope": "April 2025 recorded NYC yellow-taxi pickups; preliminary screening only",
+  "inputs": [
+    {
+      "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/data/raw/yellow_tripdata_2025-04.parquet",
+      "size_bytes": 67352824,
+      "sha256": "6f98938de9380a3f85600533816f0dc0e6d9b5b210e485d623952bac599bbe28",
+      "manifest_match": true,
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-04.parquet",
+      "download_date": "2026-11-03",
+      "download_date_status": "User-reported"
+    },
+    {
+      "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/data/reference/taxi_zone_lookup.csv",
+      "size_bytes": 12331,
+      "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+      "manifest_match": true,
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv",
+      "download_date": "2026-11-03",
+      "download_date_status": "User-reported"
+    }
+  ],
+  "manifest_sha256": "ba701328df504079b68b0078f324b2cf0c0a2de9e43e7b39e4035d794a05db83",
+  "script_sha256": "fdc248dfb74e99ec4e5bdc9fd9b8acc2a3710097c96c3c9266eab191360c2bd2",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.1.0",
+    "pyarrow": "26.0.1"
+  },
+  "source_schema": "VendorID: int32\ntpep_pickup_datetime: timestamp[us]\ntpep_dropoff_datetime: timestamp[us]\npassenger_count: int64\ntrip_distance: double\nRatecodeID: int64\nstore_and_fwd_flag: large_string\nPULocationID: int32\nDOLocationID: int32\npayment_type: int64\nfare_amount: double\nextra: double\nmta_tax: double\ntip_amount: double\ntolls_amount: double\nimprovement_surcharge: double\ntotal_amount: double\ncongestion_surcharge: double\nAirport_fee: double\ncbd_congestion_fee: double",
+  "source_timestamp_timezone": null,
+  "timestamp_interpretation": "America/New_York; naive-source semantics require external validation",
+  "observed_pickup_min": "2025-03-31 23:45:01",
+  "observed_pickup_max": "2025-05-01 00:48:13",
+  "counts": {
+    "total_rows": 3970553,
+    "missing_pickup_timestamp": 0,
+    "unparseable_pickup_timestamp": 0,
+    "missing_pickup_zone": 0,
+    "unmapped_pickup_zone": 0,
+    "combined_key_quality_failures": 0,
+    "out_of_april_timestamp": 7,
+    "in_april_mapped_non_nyc_scope_exclusions": 9464,
+    "accepted_for_april_nyc_screening": 3961082
+  },
+  "exclusive_row_dispositions": {
+    "bad_timestamp": 0,
+    "bad_zone_after_timestamp_check": 0,
+    "out_of_april_after_key_checks": 7,
+    "mapped_non_nyc_in_april": 9464,
+    "accepted": 3961082
+  },
+  "percent_of_all_rows": {
+    "combined_key_quality_failures": 0.0,
+    "out_of_april_timestamp": 0.00017629786077657194
+  },
+  "lookup": {
+    "unique_ids": 265,
+    "in_scope_nyc_ids": 262,
+    "duplicate_ids": 0,
+    "zones_with_zero_accepted_records": [
+      99,
+      103,
+      104,
+      110
+    ]
+  },
+  "hourly_coverage": {
+    "expected_april_hours": 720,
+    "zero_observed_hours": 0,
+    "unusually_low_hours": 0,
+    "low_count_heuristic_fraction": 0.1
+  },
+  "reconciliation_passed": true,
+  "limitations": [
+    "Nonzero counts cannot prove complete vendor submissions or absence of outages.",
+    "Hourly zero values describe observed accepted records, not imputed model targets.",
+    "Low-count flags use full-month data for quality diagnostics only; not forecasting features.",
+    "No raw rows are removed, corrected, deduplicated, or saved by this script.",
+    "Full-row duplicates and unrelated fare/distance/duration anomalies are not assessed.",
+    "No zone-hour modeling table is produced; this is not final three-month data acceptance.",
+    "Naive timestamp timezone semantics still require source evidence before modeling."
+  ]
+}

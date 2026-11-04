@@ -1,0 +1,36 @@
+# Local environments and Python/tool caches
+.venv/
+.uv-cache/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Local secrets; retain shareable configuration templates
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Operating-system files
+.DS_Store
+
+# Reproducible input/derived data; keep data/manifest.json versioned
+data/raw/
+data/reference/
+data/interim/
+data/processed/
+data/external/
+
+# Bulk generated artifacts; keep small quality reports under reports/ versioned
+/artifacts/
+/models/
+/reports/forecasts/
+
+# Temporary files and generated test coverage
+/tmp/
+.coverage
+.coverage.*
+htmlcov/

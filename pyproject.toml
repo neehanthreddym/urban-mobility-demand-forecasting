@@ -1,0 +1,23 @@
+[project]
+name = "urban-mobility-demand-forecasting"
+version = "0.1.0"
+description = "Hourly NYC taxi pickup forecasting and capacity-planning portfolio project"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "duckdb",
+    "matplotlib",
+    "numpy",
+    "pandas",
+    "pyarrow",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+modeling = ["lightgbm", "scikit-learn"]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.uv]
+package = false

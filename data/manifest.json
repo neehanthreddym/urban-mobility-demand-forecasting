@@ -1,0 +1,33 @@
+{
+  "manifest_version": 1,
+  "recorded_on": "2026-11-03",
+  "recorded_on_timezone": "America/Chicago",
+  "source_catalog_url": "https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page",
+  "source_terms_url": "https://www.nyc.gov/main/terms-of-use",
+  "notes": "Sizes and SHA-256 values were measured from local files. Source URLs are expected official download locations checked previously; browser-origin metadata is absent. File creation timestamps do not establish download time. The user supplied November 3, 2026 as the download date for both files; this date has not been independently verified against browser history.",
+  "files": [
+    {
+      "path": "data/raw/yellow_tripdata_2025-04.parquet",
+      "role": "raw_trip_records",
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-04.parquet",
+      "source_url_status": "expected_official_source; actual_download_origin_unconfirmed",
+      "download_date": "2026-11-03",
+      "download_date_status": "User-reported",
+      "size_bytes": 67352824,
+      "sha256": "6f98938de9380a3f85600533816f0dc0e6d9b5b210e485d623952bac599bbe28",
+      "filesystem_created_at": "2026-11-03T23:08:53-06:00",
+      "study_month": "2025-04"
+    },
+    {
+      "path": "data/reference/taxi_zone_lookup.csv",
+      "role": "geographic_reference",
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv",
+      "source_url_status": "expected_official_source; actual_download_origin_unconfirmed",
+      "download_date": "2026-11-03",
+      "download_date_status": "User-reported",
+      "size_bytes": 12331,
+      "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+      "filesystem_created_at": "2026-11-03T23:10:04-06:00"
+    }
+  ]
+}
