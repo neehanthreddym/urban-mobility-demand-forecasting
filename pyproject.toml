@@ -17,7 +17,11 @@ dependencies = [
 modeling = ["lightgbm", "scikit-learn"]
 
 [dependency-groups]
-dev = ["pytest"]
+dev = [
+    "ipykernel>=7.4.0",
+    "jupyterlab>=4.6.5",
+    "pytest",
+]
 
 [tool.uv]
 package = false

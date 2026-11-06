@@ -2,7 +2,7 @@
 
 **Decision package D01–D20 approved by the user on November 3, 2026.**
 
-This charter is the authoritative project reference. The user approved D01–D20 as written, including responsibilities and the effort estimate. These decisions establish the project protocol; empirical checks remain mandatory and no experimental findings are implied. Remaining uses of “proposed” describe the approved plan, not a pending user decision. This revision contains no acquired trip data, implementation, or model results.
+This charter is the authoritative project reference. The user approved D01–D20 as written, including responsibilities and the effort estimate. These decisions establish the project protocol; empirical checks remain mandatory and no experimental findings are implied. Remaining uses of “proposed” describe the approved plan, not a pending user decision. As of November 5, 2026, April data screening and exclusion inspection are complete; aggregation code is prepared, and no forecasting models have been trained.
 
 ## 1. Project Overview
 
@@ -11,9 +11,9 @@ This charter is the authoritative project reference. The user approved D01–D20
 | Project name | Urban Mobility Demand Forecasting and Capacity Planning |
 | Description | Forecast hourly recorded yellow-taxi pickups by NYC TLC taxi zone and produce interpretable indicators for short-term capacity review. |
 | Project type | Reproducible data-science portfolio project owned by the user, with Codex assistance |
-| Lifecycle stage | CRISP-DM Business Understanding |
+| Lifecycle stage | CRISP-DM Data Understanding, with initial Data Preparation implementation |
 | Framework | CRISP-DM |
-| Status | In progress — D01–D20 approved; sole ownership confirmed; data checks and implementation pending |
+| Status | In progress — April screening/exclusions reviewed; zone-hour aggregation script and tests prepared; full build pending |
 | Proposed delivery plan | Original six-week estimate was based on two contributors. Re-estimate after the first data/pipeline milestone; no fixed solo deadline is committed |
 
 ### Approved decision register
@@ -26,7 +26,7 @@ Every row has status **Approved by user — November 3, 2026**. References to de
 | D02 | Geographic unit | Official TLC pickup taxi zone, restricted to lookup entries in NYC's five boroughs. Include all such zones, including sparse zones; exclude unknown/unmapped IDs and locations outside NYC. Freeze the lookup snapshot before preparation. |
 | D03 | Target | Count accepted trip records by `PULocationID` and hourly `tpep_pickup_datetime`; one trip is one count, not passenger count. Call this recorded pickup demand, a proxy for served demand. |
 | D04 | Forecast schedule | At each hourly origin `t`, predict pickups during `[t, t+1 hour)`. Assume a one-hour reporting lag after an hourly bucket closes; only buckets ending at or before `t-1 hour` are available. This is retrospective replay, not a live feed. |
-| D05 | Time handling | Interpret source timestamps as NYC local time using `America/New_York`, subject to schema/metadata validation. Store timezone-aware hour keys, use half-open intervals, and reject silent timezone guessing. |
+| D05 | Time handling | Retain `America/New_York` as the approved, explicitly labeled processing assumption. The November 4 evidence review confirms timezone-free storage/publication metadata but does not verify source daylight-saving semantics. Preserve wall-clock values when localizing derived hour keys; do not assume UTC first. Use half-open intervals. See [timestamp evidence and processing contract](DATA_DOCUMENTATION.md#timestamp-decision--d05). |
 | D06 | Evaluation | Fixed chronological training, validation, and final-test intervals with one-hour pre-fit embargoes, as specified in Section 8. No random row splitting or test-driven tuning. |
 | D07 | Mandatory baselines | Last available hour, same hour previous day, and same hour previous week. Select the strongest on validation only. |
 | D08 | Candidate approach | One pooled LightGBM count-regression model with a Poisson objective, zone treated categorically, and a bounded six-configuration search. It is a candidate, not a preselected winner. |
@@ -206,9 +206,9 @@ The README will become the project entry point during implementation. API/dashbo
 
 | Phase | Objective | Principal activities | Required output | Completion evidence | Current status |
 |---|---|---|---|---|---|
-| Business Understanding | Agree on decision and target | Review D01–D20, assumptions, roles, and success criteria | Approved charter | User approval and sole ownership recorded | In progress |
-| Data Understanding | Verify source suitability | Acquire approved snapshots, inspect schema/coverage, validate quality, perform EDA | Manifest, dictionary, quality report, EDA | Checks and exclusions reproduced; exceptions resolved | Not started |
-| Data Preparation | Build the modeling table | Apply approved rules, aggregate, create lag features, enforce splits | Reproducible zone-hour dataset | Critical tests pass; counts reconcile; lineage preserved | Not started |
+| Business Understanding | Agree on decision and target | Review D01–D20, assumptions, roles, and success criteria | Approved charter | User approval and sole ownership recorded | Completed |
+| Data Understanding | Verify source suitability | Acquire approved snapshots, inspect schema/coverage, validate quality, perform EDA | Manifest, dictionary, quality report, EDA | April screening/exclusions reviewed; EDA and later months remain | In progress |
+| Data Preparation | Build the modeling table | Apply approved rules, aggregate, create lag features, enforce splits | Reproducible zone-hour dataset | April aggregation code prepared; full build, features, and splits pending | In progress |
 | Modeling | Compare simple and ML forecasts | Run baselines, bounded tuning, ablation, and final refit | Traceable configurations and forecast artifacts | Runs reproduce and selection follows the fixed rule | Not started |
 | Evaluation | Assess generalization and limits | Score frozen test, analyze zone/time errors, review planning interpretation | Evaluation report and recommendation | Test scored only after protocol freeze; limitations explicit | Not started |
 | Deployment | Deliver portfolio demonstration | Package static outputs, case study, and reproduction commands | Reviewable reproducible project | Principal results reproduced from a clean environment | Not started |
@@ -253,7 +253,7 @@ These are empirical limitations; approval cannot turn them into established fact
 | Assumption / unknown | Validation obligation and owner |
 |---|---|
 | Published source files match the dictionary and planned fields. | User (with Codex assistance) validates schema, types, source revision, and hashes after approved acquisition. |
-| Source timestamps can be interpreted as NYC local time. | User (with Codex assistance) checks available metadata and actual representation; documents any ambiguity before aggregation. D05 is a processing proposal, not a verified source-timezone claim. |
+| Source timestamps can be interpreted as NYC local time. | Evidence reviewed November 4, 2026; D05 remains the approved processing assumption, not a verified source-timezone claim. See [data documentation](DATA_DOCUMENTATION.md). Dataset-specific daylight-saving clarification is still needed before verified external/UTC alignment. |
 | A zone-hour with no accepted records represents zero activity rather than incomplete reporting. | User (with Codex assistance) checks file integrity and continuity; unresolved outages remain missing and trigger review. |
 | Three months provide useful daily/weekly forecasting evidence. | User (with Codex assistance) evaluates validation stability; no claim about annual seasonality or later regimes. |
 | The one-hour lag represents a useful planning scenario. | User (with Codex assistance) states it as hypothetical; actual pickup reporting delay and operational feasibility remain unverified. |
@@ -304,7 +304,7 @@ All previously open design questions now have a proposed resolution, an accounta
 | Delivery and expansion | D18–D19 | Approved by user | User |
 | Timeline | D20: milestone sequence retained; duration re-estimated after the first data/pipeline milestone | Updated for confirmed solo ownership | User |
 
-**Approval record:** The user approved D01–D20 as written on November 3, 2026, replying “Yes I approve” to the full decision package, including proposed responsibilities and effort estimate. The user subsequently clarified that they are the sole collaborator; this clarification supersedes the two-person assignments and removes the acknowledgment requirement. The original timeline is an estimate requiring reassessment for solo execution. Data-quality, source-timezone, resource, and model-performance checks remain mandatory validation obligations. No acquisition or implementation has begun.
+**Approval record:** The user approved D01–D20 as written on November 3, 2026, replying “Yes I approve” to the full decision package, including proposed responsibilities and effort estimate. The user subsequently clarified that they are the sole collaborator; this clarification supersedes the two-person assignments and removes the acknowledgment requirement. The original timeline is an estimate requiring reassessment for solo execution. April acquisition, preliminary quality screening, and exclusion inspection are complete; the aggregation script is prepared and six synthetic tests pass. The full zone-hour build remains pending. Source-timezone semantics, later-month quality, resource use, and model performance remain validation obligations.
 
 ## 16. Definition of Done
 
@@ -323,4 +323,4 @@ The MVP is complete only when:
 
 ## 17. Immediate Next Step
 
-**Recommended action:** Verify the approved source-file availability and expected sizes against the disk budget before acquiring the first monthly file.
+**Recommended action:** Run the synthetic transformation tests and April zone-hour build, then review the validation report before expanding data acquisition.

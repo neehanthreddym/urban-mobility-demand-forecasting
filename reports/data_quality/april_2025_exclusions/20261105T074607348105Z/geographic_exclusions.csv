@@ -1,0 +1,4 @@
+pickup_zone_id,borough,zone,service_zone,classification,record_count
+1,EWR,Newark Airport,EWR,known_outside_nyc,473
+264,Unknown,N/A,N/A,unknown_or_unspecified,7356
+265,N/A,Outside of NYC,N/A,unknown_or_unspecified,1635
