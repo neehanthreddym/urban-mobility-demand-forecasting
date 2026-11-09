@@ -59,3 +59,21 @@ def test_grid_rejects_invalid_counts(count):
     """Reject negative or non-integer counts before writing a prepared dataset."""
     with pytest.raises(ValueError, match="nonnegative integers"):
         complete_grid(Counter({(2, START): count}), {2})
+
+
+def test_may_grid_and_cross_month_exclusions():
+    """Count local May pickups and preserve all 744 hours for every zone."""
+    frame = pd.DataFrame({
+        "tpep_pickup_datetime": pd.to_datetime([
+            "2025-05-01 03:59:59", "2025-05-01 04:00:00",
+            "2025-06-01 03:59:59", "2025-06-01 04:00:00",
+        ], utc=True),
+        "PULocationID": [2] * 4,
+    })
+    cells, counts = aggregate_batch(frame, {2, 3}, {2, 3}, "2025-05")
+    assert counts["out_of_month_after_key_checks"] == 2
+    assert cells == {(2, pd.Timestamp(time, tz=TZ)): 1
+                     for time in ("2025-05-01 00:00", "2025-05-31 23:00")}
+    table = complete_grid(cells, {2, 3}, "2025-05")
+    assert len(table) == 2 * 744
+    assert table.loc[table.pickup_zone_id.eq(3), "pickup_count"].sum() == 0

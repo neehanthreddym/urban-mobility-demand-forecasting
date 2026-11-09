@@ -73,3 +73,24 @@ Retain all 262 in-scope lookup zones and all 720 April hours, including inactive
 `scripts/build_april_zone_hour.py` implements batching, explicit timestamp localization, count reconciliation, and Parquet round-trip validation. Six synthetic tests pass, covering month boundaries, missing/unmapped identifiers, geographic exclusions, clock preservation, inactive zones, and invalid aggregate values. The full data build has not been executed by Codex; its expected dimensions and totals above are acceptance checks, not newly generated results.
 
 Prepared Parquet snapshots will be saved under ignored `data/processed/april_2025/<run_id>/`; aggregate validation/provenance reports will be saved under versionable `reports/data_preparation/april_2025/<run_id>/`. No forecast features or train/test splits are created in this step.
+
+## Monthly quality-screening extension
+
+November 7, 2026: May and June yellow-taxi source files are present and registered in the manifest with measured byte sizes, SHA-256 fingerprints, and browser-origin source URLs. Registration is not data-quality acceptance; exact download dates remain unconfirmed.
+
+`scripts/assess_month_quality.py --month YYYY-MM` generalizes the screening step for the approved April–June scope. The April entry point retains its historical report format. The new script verifies the manifest's `study_month`, derives half-open month bounds, preserves the existing rules, and writes unique report folders under `reports/data_quality/monthly/`. Months spanning clock changes are rejected pending a separate policy.
+
+April's optional legacy comparison checks source fingerprints, diagnostic and exclusive counts, coverage, lookup results, source schema/timezone, timestamp extrema, and screening status against the original report. The manifest-level hash may change when new source entries are appended; exact input-file identities must still match. Synthetic tests additionally compare complete hourly and daily outputs to the legacy implementation. The saved monthly reports confirm April parity and preliminary passes for May and June.
+
+Monthly exclusion inspection uses each file’s own half-open calendar bounds and its pinned quality report. Its counts describe records in that file. A timestamp in a neighboring month does not establish that the other file contains the same trip. The May and June builds and the combined April–June zone-hour checks are complete. June 15–30 remains reserved from model-selection EDA; routine integrity and coverage checks do not authorize tuning thresholds or features against the final-test period.
+
+### May and June date-exception review
+
+All 44 excerpted pickup timestamps matched their exclusion labels under the D05 local-clock assumption. The direction counts also matched the saved inspection reports.
+
+| Source file | Dates of excluded pickups (count) | Earliest recorded timestamp | Latest recorded timestamp |
+|---|---|---|---|
+| [May inspection](../reports/data_quality/monthly_exclusions/2025-05/20261108T040104782376Z/report.md) | Jan 1, 2009 (1), Apr 30, 2025 (20), Jun 1, 2025 (3) | 2009-01-01 00:20:39 | 2025-06-01 00:04:31 |
+| [June inspection](../reports/data_quality/monthly_exclusions/2025-06/20261108T040115260148Z/report.md) | May 31, 2025 (20) | 2025-05-31 22:34:26 | 2025-05-31 23:59:57 |
+
+Of the 44 timestamps, 43 fall on a calendar day immediately adjacent to the file month. The cause of the January 2009 timestamp in the May file is unknown. Retain the original values and exclude all 44 from their respective monthly counts. The review did not establish cross-file duplicates or a corrected pickup date.

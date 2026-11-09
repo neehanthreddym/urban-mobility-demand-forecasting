@@ -1,0 +1,98 @@
+{
+  "run_at_utc": "2026-11-08T03:34:38.377003+00:00",
+  "status": "PASS_PRELIMINARY",
+  "review_reasons": [],
+  "scope": "2025-06 recorded NYC yellow-taxi pickups; preliminary screening only",
+  "month": "2025-06",
+  "configuration": {
+    "start_inclusive": "2025-06-01T00:00:00",
+    "end_exclusive": "2025-07-01T00:00:00",
+    "timezone_assumption": "America/New_York",
+    "batch_size": 100000,
+    "review_threshold_percent": 1.0
+  },
+  "inputs": [
+    {
+      "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/data/raw/yellow_tripdata_2025-06.parquet",
+      "size_bytes": 73542954,
+      "sha256": "1bea7f5b09c744414451fa7fef09fbc5a393ffb1621c859be6ba0df23a14e1b6",
+      "manifest_match": true,
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-06.parquet",
+      "download_date": null,
+      "download_date_status": "Requires confirmation"
+    },
+    {
+      "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/data/reference/taxi_zone_lookup.csv",
+      "size_bytes": 12331,
+      "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+      "manifest_match": true,
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv",
+      "download_date": "2026-11-03",
+      "download_date_status": "User-reported"
+    }
+  ],
+  "manifest_sha256": "33f85aa48db1a1721212639f1d1328d7b08b2a7c75f843aeddc6b9793727cc52",
+  "script_sha256": "7e769dd139754f0186e0f1bb7bf34329f3af4a257f7a6121328f5fb9b0390b0b",
+  "shared_validation_script_sha256": "10716b3204c2c531ce7b1a37fcab2bbd459af5afd42f7e83baf8894906fc7f70",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.1.0",
+    "pyarrow": "26.0.1"
+  },
+  "source_schema": "VendorID: int32\ntpep_pickup_datetime: timestamp[us]\ntpep_dropoff_datetime: timestamp[us]\npassenger_count: int64\ntrip_distance: double\nRatecodeID: int64\nstore_and_fwd_flag: large_string\nPULocationID: int32\nDOLocationID: int32\npayment_type: int64\nfare_amount: double\nextra: double\nmta_tax: double\ntip_amount: double\ntolls_amount: double\nimprovement_surcharge: double\ntotal_amount: double\ncongestion_surcharge: double\nAirport_fee: double\ncbd_congestion_fee: double",
+  "source_timestamp_timezone": null,
+  "timestamp_interpretation": "America/New_York; naive-source semantics require external validation",
+  "observed_pickup_min": "2025-05-31 22:34:26",
+  "observed_pickup_max": "2025-06-30 23:59:59",
+  "counts": {
+    "total_rows": 4322960,
+    "missing_pickup_timestamp": 0,
+    "unparseable_pickup_timestamp": 0,
+    "missing_pickup_zone": 0,
+    "unmapped_pickup_zone": 0,
+    "combined_key_quality_failures": 0,
+    "out_of_month_timestamp": 20,
+    "in_month_mapped_non_nyc_scope_exclusions": 9081,
+    "accepted_for_month_nyc_screening": 4313859
+  },
+  "exclusive_row_dispositions": {
+    "bad_timestamp": 0,
+    "bad_zone_after_timestamp_check": 0,
+    "out_of_month_after_key_checks": 20,
+    "mapped_non_nyc_in_month": 9081,
+    "accepted": 4313859
+  },
+  "percent_of_all_rows": {
+    "combined_key_quality_failures": 0.0,
+    "out_of_month_timestamp": 0.000462645964801895
+  },
+  "lookup": {
+    "unique_ids": 265,
+    "in_scope_nyc_ids": 262,
+    "duplicate_ids": 0,
+    "zones_with_zero_accepted_records": [
+      5,
+      99,
+      103,
+      104,
+      105,
+      110
+    ]
+  },
+  "hourly_coverage": {
+    "expected_month_hours": 720,
+    "zero_observed_hours": 0,
+    "unusually_low_hours": 0,
+    "low_count_heuristic_fraction": 0.1
+  },
+  "reconciliation_passed": true,
+  "limitations": [
+    "Nonzero counts cannot prove complete vendor submissions or absence of outages.",
+    "Hourly zero values describe observed accepted records, not imputed model targets.",
+    "Low-count flags use full-month data for quality diagnostics only; not forecasting features.",
+    "No raw rows are removed, corrected, deduplicated, or saved by this script.",
+    "Full-row duplicates and unrelated fare/distance/duration anomalies are not assessed.",
+    "No zone-hour modeling table is produced; this is not final three-month data acceptance.",
+    "Naive timestamp timezone semantics still require source evidence before modeling."
+  ]
+}

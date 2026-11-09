@@ -1,0 +1,48 @@
+{
+  "experiment_id": "20261108T233614690012Z",
+  "source_sha256": "da0160818e468ec24d30e0fb35a1c1334cd1baed69181048718e0548daaec4ae",
+  "source_report": "reports/data_preparation/forecast_features/20261108T064005732515Z/report.json",
+  "source_report_sha256": "9f56daba8e4d1067875da9a5b012bbf9906c1ce7ca39a4cf9d6b7dd3d59f15c3",
+  "script_sha256": "0063065e931c0f768a59ab17d290dfbc3ae3d24a9bc4c388b7d95133cd50e2ae",
+  "git_revision": "4deabffd50149e4cdcb699e43742f17647e80188",
+  "baseline_lags": {
+    "weekly": "lag_168",
+    "daily": "lag_24",
+    "persistence": "lag_2"
+  },
+  "seed": "N/A (deterministic)",
+  "validation_start": "2025-06-01T00:00:00-04:00",
+  "validation_end_exclusive": "2025-06-14T23:00:00-04:00",
+  "top20_training_zones": [
+    237,
+    161,
+    132,
+    236,
+    230,
+    162,
+    186,
+    142,
+    138,
+    234,
+    170,
+    163,
+    239,
+    68,
+    79,
+    48,
+    249,
+    164,
+    141,
+    107
+  ],
+  "median_positive_volume_zone_wmape_pct": {
+    "weekly": 86.02362204724409,
+    "daily": 82.46445497630332,
+    "persistence": 88.8
+  },
+  "selected_baseline": "weekly",
+  "mae": 5.61767118605446,
+  "wmape_pct": 23.935956922724408,
+  "runtime_seconds": 0.20637045800685883,
+  "artifact_path": "reports/baselines/20261108T233614690012Z"
+}

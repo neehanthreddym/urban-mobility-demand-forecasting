@@ -1,0 +1,77 @@
+{
+  "run_at_utc": "2026-11-08T04:01:15.257466+00:00",
+  "status": "RECONCILED",
+  "inputs": [
+    {
+      "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/data/raw/yellow_tripdata_2025-06.parquet",
+      "size_bytes": 73542954,
+      "sha256": "1bea7f5b09c744414451fa7fef09fbc5a393ffb1621c859be6ba0df23a14e1b6",
+      "manifest_match": true,
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-06.parquet",
+      "download_date": null,
+      "download_date_status": "Requires confirmation"
+    },
+    {
+      "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/data/reference/taxi_zone_lookup.csv",
+      "size_bytes": 12331,
+      "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+      "manifest_match": true,
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv",
+      "download_date": "2026-11-03",
+      "download_date_status": "User-reported"
+    }
+  ],
+  "manifest_sha256": "33f85aa48db1a1721212639f1d1328d7b08b2a7c75f843aeddc6b9793727cc52",
+  "baseline_report": {
+    "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/reports/data_quality/monthly/2025-06/20261108T033438379619Z/report.json",
+    "sha256": "cbc315638db96ace0c5c0917e2c9e875af4fd3125a46aacbc276d24092ae88d0"
+  },
+  "script_sha256": "eb61983a472717c9ca981ccd00fbd7919c734bfc8d919b2a3164bf461b6bf0f6",
+  "shared_validation_script_sha256": "ce613005ce000dfd4f152558c30a868f7f4f595141a743676fd0965be52e8d67",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.1.0",
+    "pyarrow": "26.0.1"
+  },
+  "counts": {
+    "total_rows": 4322960,
+    "missing_pickup_timestamp": 0,
+    "unparseable_pickup_timestamp": 0,
+    "missing_pickup_zone": 0,
+    "unmapped_pickup_zone": 0,
+    "combined_key_quality_failures": 0,
+    "out_of_month_timestamp": 20,
+    "in_month_mapped_non_nyc_scope_exclusions": 9081,
+    "accepted_for_month_nyc_screening": 4313859
+  },
+  "exclusive_row_dispositions": {
+    "bad_timestamp": 0,
+    "bad_zone_after_timestamp_check": 0,
+    "out_of_month_after_key_checks": 20,
+    "mapped_non_nyc_in_month": 9081,
+    "accepted": 4313859
+  },
+  "date_exclusions_by_direction": {
+    "before_month": 20,
+    "on_or_after_next_month": 0
+  },
+  "geographic_classification_totals": {
+    "known_outside_nyc": 486,
+    "unknown_or_unspecified": 8595,
+    "unresolved_reference": 0
+  },
+  "baseline_counts_match": true,
+  "reconciliation_passed": true,
+  "timestamp_assumption": "Recorded clock values interpreted as America/New_York under D05; source DST semantics unverified",
+  "treatment": "Retain exclusion rules for the monthly NYC target; preserve original files and historical screening report",
+  "limitations": [
+    "Geographic classification interprets lookup labels, not independently verified trip coordinates.",
+    "Unknown/unspecified categories do not establish that pickups occurred outside NYC.",
+    "Date and geography are disjoint in the exclusive dispositions; diagnostic key failures can overlap.",
+    "Derived source_row_number is physical scan position, not an official unique trip identifier.",
+    "No date correction, timezone shift, deduplication, or modeling table is performed.",
+    "RECONCILED establishes accounting/classification only, not overall source completeness."
+  ],
+  "month": "2025-06",
+  "local_date_excerpt_path": "data/interim/monthly_exclusions/2025-06/20261108T040115260148Z/out_of_month_records.csv"
+}

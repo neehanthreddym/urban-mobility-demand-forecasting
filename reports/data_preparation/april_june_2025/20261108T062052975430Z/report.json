@@ -1,0 +1,44 @@
+{
+  "status": "VALIDATED",
+  "inputs": [
+    {
+      "month": "2025-04",
+      "report_path": "reports/data_preparation/april_2025/20261106T041153628221Z/report.json",
+      "report_sha256": "4695b4221bdc1d5892435aba94a9c28d638edca8904707774e96fdd69366660a",
+      "dataset_path": "data/processed/april_2025/20261106T041153628221Z/zone_hour_demand.parquet",
+      "dataset_sha256": "0aefedccc8b1f2a4951a6a8fa73cb8258fdacd499e6732145870a54cf4909132",
+      "rows": 188640,
+      "accepted_pickups": 3961082
+    },
+    {
+      "month": "2025-05",
+      "report_path": "reports/data_preparation/monthly/2025-05/20261108T052612838884Z/report.json",
+      "report_sha256": "a583076a46e3cb483c88f2728245b7744eb9467a8e81c92c10559f5fea405802",
+      "dataset_path": "data/processed/monthly/2025-05/20261108T052612838884Z/zone_hour_demand.parquet",
+      "dataset_sha256": "d3902d4137a331aa5d92dd9d78bf9c5ab3e77f425f5885ceddb501fe82d997e2",
+      "rows": 194928,
+      "accepted_pickups": 4581602
+    },
+    {
+      "month": "2025-06",
+      "report_path": "reports/data_preparation/monthly/2025-06/20261108T055257560857Z/report.json",
+      "report_sha256": "f7ac80ac2cb16be068a091e030755bc8a5f4a80ae6b7dd2949e5352eaaf15c61",
+      "dataset_path": "data/processed/monthly/2025-06/20261108T055257560857Z/zone_hour_demand.parquet",
+      "dataset_sha256": "ec0a2168dd56938241e296d34cd57c69e1889939fa9f4035892ba6f4c04b4562",
+      "rows": 188640,
+      "accepted_pickups": 4313859
+    }
+  ],
+  "lookup_sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+  "script_sha256": "14400634e0c7f7cc2b8d35ce77c5b917d5d3ef3189c7397d7e444b5b735681dc",
+  "timezone_assumption": "America/New_York",
+  "zones": 262,
+  "hours_per_zone": 2184,
+  "rows": 572208,
+  "accepted_pickups": 12856543,
+  "unique_keys": true,
+  "continuous_hourly_per_zone": true,
+  "parquet_round_trip_passed": true,
+  "dataset_path": "data/processed/april_june_2025/20261108T062052975430Z/zone_hour_demand.parquet",
+  "dataset_sha256": "19e6872f5990a99e7f8b345b24b6ba44d4ef3abe1b8089a9759fcdd3b1cb4fa2"
+}

@@ -1,0 +1,2 @@
+experiment_id,git_revision,source_sha256,script_sha256,validation_start,validation_end_exclusive,seed,selected_baseline,mae,wmape_pct,runtime_seconds,artifact_path
+20261108T233614690012Z,4deabffd50149e4cdcb699e43742f17647e80188,da0160818e468ec24d30e0fb35a1c1334cd1baed69181048718e0548daaec4ae,0063065e931c0f768a59ab17d290dfbc3ae3d24a9bc4c388b7d95133cd50e2ae,2025-06-01T00:00:00-04:00,2025-06-14T23:00:00-04:00,N/A (deterministic),weekly,5.61767118605446,23.935956922724408,0.20637045800685883,reports/baselines/20261108T233614690012Z

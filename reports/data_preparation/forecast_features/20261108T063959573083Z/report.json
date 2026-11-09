@@ -1,0 +1,37 @@
+{
+  "status": "VALIDATED",
+  "rows": 572208,
+  "source_report": "reports/data_preparation/april_june_2025/20261108T062052975430Z/report.json",
+  "source_report_sha256": "29d6dc7b19cc0b0d80212c970a2e9f52a0401bdfba2e851f6f6377868b4e83fc",
+  "source_sha256": "19e6872f5990a99e7f8b345b24b6ba44d4ef3abe1b8089a9759fcdd3b1cb4fa2",
+  "script_sha256": "1b8d757ff1949d6b67164951da0e5db0f16d81b486b1379d65f73dd3999ba546",
+  "dataset_path": "data/processed/forecast_features/20261108T063959573083Z/features.parquet",
+  "dataset_sha256": "da0160818e468ec24d30e0fb35a1c1334cd1baed69181048718e0548daaec4ae",
+  "categorical_features": [
+    "pickup_zone_id"
+  ],
+  "predictors": [
+    "pickup_zone_id",
+    "hour",
+    "day_of_week",
+    "is_weekend",
+    "lag_2",
+    "lag_3",
+    "lag_24",
+    "lag_48",
+    "lag_168",
+    "mean_3_ending_lag_2",
+    "mean_24_ending_lag_2",
+    "mean_168_ending_lag_2"
+  ],
+  "split_rows": {
+    "train": 339028,
+    "test": 100608,
+    "validation": 87770,
+    "warmup": 44278,
+    "embargo": 524
+  },
+  "refit_eligible_rows": 427060,
+  "timezone_assumption": "America/New_York",
+  "reporting_delay_after_close_hours": 1
+}

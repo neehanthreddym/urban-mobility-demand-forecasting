@@ -2,9 +2,10 @@
   "manifest_version": 1,
   "recorded_on": "2026-11-03",
   "recorded_on_timezone": "America/Chicago",
+  "updated_on": "2026-11-07",
   "source_catalog_url": "https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page",
   "source_terms_url": "https://www.nyc.gov/main/terms-of-use",
-  "notes": "Sizes and SHA-256 values were measured from local files. Source URLs are expected official download locations checked previously; browser-origin metadata is absent. File creation timestamps do not establish download time. The user supplied November 3, 2026 as the download date for both files; this date has not been independently verified against browser history.",
+  "notes": "Sizes and SHA-256 values were measured from local files. April and lookup source URLs remain expected official locations without browser-origin metadata; the user supplied November 3, 2026 as their download date. May and June source URLs were confirmed from browser-origin file metadata on November 7, 2026. Exact May/June download dates remain unconfirmed; file creation timestamps are retained separately and are not proof of download time. Registering a file does not establish Parquet readability or data-quality acceptance.",
   "files": [
     {
       "path": "data/raw/yellow_tripdata_2025-04.parquet",
@@ -28,6 +29,32 @@
       "size_bytes": 12331,
       "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
       "filesystem_created_at": "2026-11-03T23:10:04-06:00"
+    },
+    {
+      "path": "data/raw/yellow_tripdata_2025-05.parquet",
+      "role": "raw_trip_records",
+      "study_month": "2025-05",
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-05.parquet",
+      "source_url_status": "Verified from com.apple.metadata:kMDItemWhereFroms",
+      "first_verified_on": "2026-11-07",
+      "download_date": null,
+      "download_date_status": "Requires confirmation",
+      "size_bytes": 77837865,
+      "sha256": "7ef46bcd0fceee7f8c0bb38a532be05bceefabb512d4bb0b32a7727dd862b15c",
+      "filesystem_created_at": "2026-11-07T20:19:20-06:00"
+    },
+    {
+      "path": "data/raw/yellow_tripdata_2025-06.parquet",
+      "role": "raw_trip_records",
+      "study_month": "2025-06",
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-06.parquet",
+      "source_url_status": "Verified from com.apple.metadata:kMDItemWhereFroms",
+      "first_verified_on": "2026-11-07",
+      "download_date": null,
+      "download_date_status": "Requires confirmation",
+      "size_bytes": 73542954,
+      "sha256": "1bea7f5b09c744414451fa7fef09fbc5a393ffb1621c859be6ba0df23a14e1b6",
+      "filesystem_created_at": "2026-11-07T20:19:59-06:00"
     }
   ]
 }

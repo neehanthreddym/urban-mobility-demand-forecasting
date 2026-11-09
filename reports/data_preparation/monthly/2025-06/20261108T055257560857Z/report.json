@@ -1,0 +1,63 @@
+{
+  "status": "VALIDATED",
+  "inputs": [
+    {
+      "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/data/raw/yellow_tripdata_2025-06.parquet",
+      "size_bytes": 73542954,
+      "sha256": "1bea7f5b09c744414451fa7fef09fbc5a393ffb1621c859be6ba0df23a14e1b6",
+      "manifest_match": true,
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-06.parquet",
+      "download_date": null,
+      "download_date_status": "Requires confirmation"
+    },
+    {
+      "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/data/reference/taxi_zone_lookup.csv",
+      "size_bytes": 12331,
+      "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+      "manifest_match": true,
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv",
+      "download_date": "2026-11-03",
+      "download_date_status": "User-reported"
+    }
+  ],
+  "month": "2025-06",
+  "manifest_sha256": "33f85aa48db1a1721212639f1d1328d7b08b2a7c75f843aeddc6b9793727cc52",
+  "quality_report_sha256": "cbc315638db96ace0c5c0917e2c9e875af4fd3125a46aacbc276d24092ae88d0",
+  "exclusions_report_sha256": "96fbbe52921b580650c7a7a1986b934b37482e321751fe6e404a3086d2f5fdf7",
+  "script_sha256": "a3cacc54d030ae7c8201afd78e0681be49e7d305dada5a484367fca2e39856cd",
+  "shared_validation_script_sha256": "ce613005ce000dfd4f152558c30a868f7f4f595141a743676fd0965be52e8d67",
+  "environment": {
+    "python": "3.12.13",
+    "pandas": "3.1.0",
+    "pyarrow": "26.0.1"
+  },
+  "configuration": {
+    "start_inclusive": "2025-06-01T00:00:00-04:00",
+    "end_exclusive": "2025-07-01T00:00:00-04:00",
+    "timezone_assumption": "America/New_York",
+    "batch_size": 100000
+  },
+  "zones": 262,
+  "hours_per_zone": 720,
+  "rows": 188640,
+  "accepted_pickups": 4313859,
+  "exclusive_dispositions": {
+    "bad_timestamp": 0,
+    "bad_zone_after_timestamp_check": 0,
+    "out_of_month_after_key_checks": 20,
+    "mapped_non_nyc_in_month": 9081,
+    "accepted": 4313859
+  },
+  "zero_observed_zone_hours": 64535,
+  "count_reconciliation_passed": true,
+  "limitations": [
+    "Timezone semantics remain an explicit D05 assumption.",
+    "Zeros mean no accepted records observed after preliminary coverage checks; completeness is not proven.",
+    "Counts represent recorded served pickups, not unmet demand.",
+    "No deduplication, feature engineering, or train/test splitting performed."
+  ],
+  "run_at_utc": "2026-11-08T05:52:57.590423+00:00",
+  "dataset_path": "data/processed/monthly/2025-06/20261108T055257560857Z/zone_hour_demand.parquet",
+  "dataset_sha256": "ec0a2168dd56938241e296d34cd57c69e1889939fa9f4035892ba6f4c04b4562",
+  "parquet_round_trip_passed": true
+}
