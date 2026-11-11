@@ -1,0 +1,15 @@
+{
+  "run_id": "71dcb809d5c0409484d8b55b21751f17",
+  "status": "EVALUATED",
+  "refit_rows": 427060,
+  "test_rows": 100608,
+  "relative_gain_pct": 21.235597572939014,
+  "top20_passed": 20,
+  "recommendation": "lightgbm",
+  "lightgbm_passed_final_guardrails": true,
+  "protocol_sha256": "888fe53383ed9cd05f1afe20876309939a64418dbf1098d021a2bcc50f880e0f",
+  "model_uri": "runs:/71dcb809d5c0409484d8b55b21751f17/model/model.txt",
+  "model_sha256": "e9c0837c6979f188ca6948fbaee1b5729a5adc0f917f59af4ddb29060e9f40d1",
+  "predictions_sha256": "b95ac228c75eb4baff380d111c9a5a8675c150e2d92e550a76591ac8553de6a7",
+  "reload_max_difference": 0.0
+}

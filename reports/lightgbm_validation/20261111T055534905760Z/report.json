@@ -1,0 +1,67 @@
+{
+  "experiment_id": "20261111T055534905760Z",
+  "git_revision": "bb83ec46a9ecee962a08ba361c3846b34a1f797b",
+  "script_sha256": "61880e8f59db9f20d06c5ca3e0115a3b16dc9a6263d08896dc235fc7257092da",
+  "source_sha256": "da0160818e468ec24d30e0fb35a1c1334cd1baed69181048718e0548daaec4ae",
+  "baseline_report": "reports/baselines/20261108T233614690012Z/report.json",
+  "baseline_report_sha256": "2b98c48d678ac3abadd9cd89e444951bf988f2991449f49bb92f39450ce4c27a",
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "lightgbm_version": "4.7.0",
+  "params": {
+    "objective": "poisson",
+    "metric": "l1",
+    "learning_rate": 0.05,
+    "num_threads": 4,
+    "seed": 42,
+    "deterministic": true,
+    "force_col_wise": true,
+    "verbosity": -1
+  },
+  "max_rounds": 500,
+  "early_stopping_rounds": 50,
+  "features": [
+    "pickup_zone_id",
+    "hour",
+    "day_of_week",
+    "is_weekend",
+    "lag_2",
+    "lag_3",
+    "lag_24",
+    "lag_48",
+    "lag_168",
+    "mean_3_ending_lag_2",
+    "mean_24_ending_lag_2",
+    "mean_168_ending_lag_2"
+  ],
+  "training_rows": 339028,
+  "validation_rows": 87770,
+  "validation_start": "2025-06-01T00:00:00-04:00",
+  "validation_end_exclusive": "2025-06-14T23:00:00-04:00",
+  "best_candidate": {
+    "num_leaves": 31,
+    "min_child_samples": 50,
+    "iterations": 500,
+    "mae": 4.353107973366209,
+    "wmape_pct": 18.54786467195191,
+    "seconds": 5.818920542020351
+  },
+  "ablation_features": [
+    "pickup_zone_id",
+    "hour",
+    "day_of_week",
+    "is_weekend"
+  ],
+  "ablation": {
+    "num_leaves": 31,
+    "min_child_samples": 50,
+    "iterations": 500,
+    "mae": 4.363857796230869,
+    "wmape_pct": 18.593667868417768,
+    "seconds": 3.0663207499310374
+  },
+  "relative_gain_pct": 22.510452655674406,
+  "top20_passed": 20,
+  "selected_for_final_evaluation": "lightgbm",
+  "median_positive_volume_zone_wmape_pct": 65.26953823789376,
+  "runtime_seconds": 36.563766041072085
+}

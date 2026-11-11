@@ -14,7 +14,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-modeling = ["lightgbm", "scikit-learn"]
+modeling = [
+    "lightgbm",
+    "mlflow>=3.18.0",
+    "scikit-learn",
+]
 
 [dependency-groups]
 dev = [
@@ -25,3 +29,6 @@ dev = [
 
 [tool.uv]
 package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

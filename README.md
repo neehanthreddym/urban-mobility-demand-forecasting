@@ -118,3 +118,65 @@ Each lag uses the same zone's observations. Each trailing mean ends two hours be
 ## Validation baselines
 
 Run `uv run --locked python scripts/score_validation_baselines.py` after preparing forecast features. The script reads the pinned feature snapshot, freezes the top 20 zones by initial training volume, and evaluates all three lag baselines on the same validation cells. Each run saves weekly and pooled scores, error breakdowns and provenance under `reports/baselines/` and adds an entry to `reports/experiments.csv`. The [validation metrics](reports/baselines/20261108T233614690012Z/validation_metrics.csv) select the weekly seasonal baseline as the reference for the candidate model.
+
+## LightGBM validation
+
+From the project root, run `uv run --locked --extra modeling python scripts/validate_lightgbm.py`. The modeling extra installs the locked LightGBM dependencies. The run uses the same training and validation dates as the baselines. It fits six Poisson models sequentially and stops each fit after 50 rounds without a validation MAE improvement, up to 500 rounds.
+
+The run writes all six scores, the best candidate's weekly and zone errors, the 20-zone comparison, and the calendar-and-zone-only diagnostic under `reports/lightgbm_validation/`. The report identifies the validation-selected method and the iteration count for the subsequent refit.
+
+## Local MLflow tracking
+
+From the project root, start the loopback tracking server in one terminal. SQLite and saved artifacts live together under the Git-ignored `artifacts/mlflow/` directory.
+
+```sh
+mkdir -p artifacts/mlflow
+uv run --locked --extra modeling mlflow server --host 127.0.0.1 --port 5050 --workers 1 --backend-store-uri sqlite:///artifacts/mlflow/tracking.db --artifacts-destination ./artifacts/mlflow/files
+```
+
+Open the tracking UI at http://127.0.0.1:5050. In a second terminal, run the tracking check and keep its printed run ID.
+
+```sh
+export MLFLOW_TRACKING_URI=http://127.0.0.1:5050
+uv run --locked --extra modeling python scripts/check_mlflow.py
+```
+
+Stop the server with Ctrl-C, restart it with the same command from the project root, and verify the original run.
+
+```sh
+uv run --locked --extra modeling python scripts/check_mlflow.py --verify <RUN_ID>
+```
+
+Replace `<RUN_ID>` with the ID from the first check. A pass confirms that the experiment, completed run, parameter, and artifact text survived the restart.
+
+## Reproduce the selected model with MLflow
+
+With the local tracking server running, reproduce the selected validation fit from the project root.
+
+```sh
+uv run --locked --extra modeling python scripts/reproduce_validation.py
+```
+
+The command records the original experiment, data and code fingerprints, Git revision, locked environment, 500-round training history, input column order and zone categories. It compares validation MAE and WMAPE with the reference at absolute tolerance 0.000001, then downloads the logged native LightGBM model in a fresh Python process and compares every validation prediction. Each successful verification writes a small report under `reports/reproducibility/<run_id>/`.
+
+The original training-script fingerprint is recoverable by restoring line wrapping around the training call. The before-tracking source is preserved under `reports/reproducibility/validation_script_before_tracking.py`; its parsed Python syntax matches that reconstructed original. The shared input loader now supports the original six-model comparison and the reproduction run.
+
+The fitted model is an MLflow artifact at `runs:/<run_id>/model/model.txt`. Load it by downloading it with `mlflow.artifacts.download_artifacts` and passing that path to `lightgbm.Booster(model_file=...)`. Restore the feature order and categorical zone IDs recorded in `feature_schema.json` before prediction. Model files and validation prediction rows remain under ignored artifact storage. Back up the SQLite database and artifact folder together to preserve local experiment access.
+
+## Frozen final evaluation
+
+The [final test report](reports/final_evaluation/71dcb809d5c0409484d8b55b21751f17/report.json) records the June 15–30 evaluation of 100,608 zone-hours after refitting on 427,060 eligible rows for 500 rounds. LightGBM achieved MAE 4.383744 and WMAPE 19.640898%, compared with weekly baseline WMAPE 24.936262%. Its 21.235598% relative improvement and all 20 busy-zone checks satisfy the charter's recommendation rule.
+
+`scripts/evaluate_final_test.py` saves the fixed protocol before reading test rows and records the native model, input schema, predictions and diagnostics in MLflow. A fresh Python process verifies the model's predictions. The command detects an existing completed evaluation and prints its report path on subsequent invocations.
+
+```sh
+uv run --locked --extra modeling python scripts/evaluate_final_test.py
+```
+
+The local tracking server must be running. See the run at http://127.0.0.1:5050/#/experiments/1/runs/71dcb809d5c0409484d8b55b21751f17.
+
+## Planning interpretation
+
+Run `uv run --locked --extra modeling python scripts/create_planning_outputs.py` with local MLflow running. The script retrieves the saved final-test predictions, verifies fingerprints and writes hourly competition ranks, strict high-demand flags and zone labels to ignored CSV/Parquet files under `reports/forecasts/<run_id>/`. The CSV is suitable for a Tableau zone/hour review with filters for forecast rank, predicted pickups and historical reference.
+
+The [planning findings](reports/planning/f3b0488bb9e34707942376c86010a661/findings.md) include zone, date, hour and weekday errors, two charts and the training-only percentile reference. The reference values were materialized after final evaluation using the initial training interval and the charter's predeclared percentile rule. A zero reference in sparse zones causes any positive prediction to trigger the flag. Display predicted volume and the reference together when interpreting those zones. Vehicle supply and unmet requests remain unobserved.

@@ -1,0 +1,19 @@
+{
+  "analysis_run_id": "f3b0488bb9e34707942376c86010a661",
+  "final_model_run_id": "71dcb809d5c0409484d8b55b21751f17",
+  "script_sha256": "a78d3c653fd715c3e0d08af94a39491c2235ea30cb6e0353ffdcb67e5762e100",
+  "final_report_sha256": "f5ee307b09402d9989c9e1e6f00e347d0dc2693901454d145acefffaee13ee6f",
+  "feature_source_sha256": "da0160818e468ec24d30e0fb35a1c1334cd1baed69181048718e0548daaec4ae",
+  "lookup_sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+  "prediction_source_sha256": "b95ac228c75eb4baff380d111c9a5a8675c150e2d92e550a76591ac8553de6a7",
+  "planning_path": "reports/forecasts/f3b0488bb9e34707942376c86010a661/planning.parquet",
+  "planning_sha256": "e8ce1e4464785680720fe87a755f147a303eff6c910ee86f903ed94309645768",
+  "rows": 100608,
+  "flagged_cells": 17622,
+  "training_reference_start": "2025-04-08T01:00:00-04:00",
+  "training_reference_end_exclusive": "2025-05-31T23:00:00-04:00",
+  "reference_materialized_after_evaluation": true,
+  "percentile": 0.9,
+  "interpolation": "linear",
+  "rank_ties": "min"
+}
