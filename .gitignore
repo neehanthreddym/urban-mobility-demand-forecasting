@@ -34,3 +34,13 @@ data/external/
 .coverage
 .coverage.*
 htmlcov/
+
+# Tableau local packages and extracts; version editable workbook definitions
+/dashboards/tableau/*.twbx
+/dashboards/tableau/**/*.twbx
+/dashboards/tableau/*.hyper
+/dashboards/tableau/**/*.hyper
+/dashboards/tableau/*.tde
+/dashboards/tableau/**/*.tde
+/dashboards/tableau/**/.twbr
+/dashboards/tableau/*.twbr

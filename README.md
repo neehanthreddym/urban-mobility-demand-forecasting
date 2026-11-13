@@ -4,6 +4,14 @@
 
 Forecast hourly recorded NYC taxi pickups by TLC zone using the CRISP-DM framework. See the [project charter](docs/PROJECT_CHARTER.md) for the approved scope and evaluation protocol.
 
+## Tableau dashboard
+
+[![NYC Taxi Forecast Review dashboard](public/assets/images/nyc-taxi-forecast-dashboard.png)](https://public.tableau.com/views/nyc_taxi_forecast_review/NYCTaxiForecastReview)
+
+[Explore the interactive dashboard on Tableau Public](https://public.tableau.com/views/nyc_taxi_forecast_review/NYCTaxiForecastReview)
+
+The final-test LightGBM model achieved **4.38 MAE** and **19.64% WMAPE**, a **21.24% relative WMAPE reduction** against the weekly baseline. The dashboard presents hourly forecast priorities, recorded-versus-forecast totals, and zone errors. See the [dashboard guide and findings](dashboards/tableau/README.md) for data lineage, calculations, workbook-saving instructions, and interpretation limits.
+
 ## Environment setup
 
 Use uv from the project root. Python 3.12.13 is pinned in `.python-version`; `uv.lock` records exact dependency versions.
@@ -13,7 +21,7 @@ uv sync --locked
 uv run --locked python --version
 ```
 
-The default environment includes data-inspection and plotting tools plus pytest. Modeling dependencies are optional; install them when the modeling phase begins with `uv sync --locked --extra modeling`. No forecasting package or command-line pipeline has been implemented yet.
+The default environment includes data-inspection and plotting tools plus pytest. Modeling dependencies are optional; install them when the modeling phase begins with `uv sync --locked --extra modeling`. Scripts cover data preparation, forecast features, baseline and LightGBM evaluation, MLflow tracking, and planning exports.
 
 ## Local data
 
@@ -28,7 +36,7 @@ data/reference/taxi_zone_lookup.csv
 
 The [data manifest](data/manifest.json) records source URLs, measured sizes, SHA-256 checksums, and provenance limitations. April and the lookup have user-reported November 3 download dates. May/June browser-origin URLs are verified, while their exact download dates remain unconfirmed. Raw/reference datasets and the local environment are excluded from Git; the manifest and lockfile should be versioned.
 
-April screening, exclusion inspection, zone-hour preparation, and initial EDA are complete. May and June are downloaded; monthly quality screening is the next step.
+April–June screening, exclusion inspection, zone-hour preparation, validation selection, final testing, and planning exports are complete. The Tableau dashboard is published on Tableau Public, and its editable workbook is included under `dashboards/tableau/`.
 
 ## April data-quality screening
 
