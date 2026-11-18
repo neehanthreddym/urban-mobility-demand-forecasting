@@ -1,7 +1,7 @@
 {
   "status": "PASS_LOOKUP_ONLY",
   "verified_on": "2026-11-17",
-  "evidence_source": "User-provided terminal output in the project chat; no remote access during documentation reconciliation",
+  "evidence_source": "Terminal output in the project chat; no remote access during documentation reconciliation",
   "method": "DVC pull into a separate no-SCM project with an empty local cache, followed by SHA-256 comparison of original and restored lookup",
   "tracked_file_count": 13,
   "verified_file_count": 1,

@@ -4,7 +4,7 @@
 
 This charter is the authoritative project reference. D01–D20 record the approved April–June benchmark protocol. The [expanded experiment configuration](../configs/expansion_v1.json), approved November 15, 2026, defines the subsequent April–September evaluation design. Implementation choices explicitly marked Proposed or TBD remain unresolved.
 
-Status reviewed November 17, 2026. The April–June baseline and LightGBM comparison, frozen June evaluation, MLflow reproduction and Tableau dashboard are complete. April–September monthly preparation and DVC synchronization are complete. An isolated DVC lookup restoration passed. Full snapshot restoration, PySpark preparation and expanded forecasting experiments remain pending.
+Status reviewed November 17, 2026. The April–June baseline and LightGBM comparison, frozen June evaluation, MLflow reproduction and Tableau dashboard are complete. April–September monthly preparation, DVC synchronization and isolated full-snapshot restoration are complete. All 13 restored file sizes and SHA-256 hashes matched the inventory at commit `99ce2d6`. PySpark preparation and expanded forecasting experiments remain pending.
 
 ## 1. Project Overview
 
@@ -15,7 +15,7 @@ Status reviewed November 17, 2026. The April–June baseline and LightGBM compar
 | Project type | Reproducible data-science portfolio project owned by the user, with Codex assistance |
 | Lifecycle stage | CRISP-DM Data Preparation for the expansion; original benchmark evaluated |
 | Framework | CRISP-DM |
-| Status | In progress — six monthly datasets validated and synchronized through DVC; lookup restoration verified; expansion modeling pending |
+| Status | In progress — six monthly datasets validated; all 13 snapshot files synchronized and restoration verified through DVC; PySpark and expansion modeling pending |
 | Proposed delivery plan | Original six-week estimate was based on two contributors. Re-estimate after the first data/pipeline milestone; no fixed solo deadline is committed |
 
 ### Approved decision register
@@ -208,7 +208,7 @@ The README is the project entry point. The Tableau dashboard presents the comple
 
 ## 10. CRISP-DM Phases
 
-This table records the April–June benchmark. For the expansion, monthly validation and preparation are complete, full snapshot DVC restoration is pending, and PySpark, expanded features, model comparison, interval calibration and final testing remain to be implemented.
+This table records the April–June benchmark. For the expansion, monthly validation, preparation and full snapshot DVC restoration are complete. PySpark, expanded features, model comparison, interval calibration and final testing remain to be implemented.
 
 | Phase | Objective | Principal activities | Required output | Completion evidence | Current status |
 |---|---|---|---|---|---|
@@ -310,7 +310,7 @@ All previously open design questions now have a proposed resolution, an accounta
 | Delivery and expansion | D18–D19 | Approved by user | User |
 | Timeline | D20: milestone sequence retained; duration re-estimated after the first data/pipeline milestone | Updated for confirmed solo ownership | User |
 
-**Approval record.** The user approved D01–D20 on November 3, 2026 and subsequently confirmed sole ownership. The original timeline needs reassessment for solo execution. The expanded experiment was approved November 15. The completed June evaluation and six-month data preparation are documented in saved reports. Google Drive synchronization and lookup-only restoration are confirmed by user-provided terminal output. Full DVC snapshot restoration and expanded model evaluation remain pending. Source timezone, completeness and operational impact remain unresolved.
+**Approval record.** The user approved D01–D20 on November 3, 2026 and subsequently confirmed sole ownership. The original timeline needs reassessment for solo execution. The expanded experiment was approved November 15. The completed June evaluation and six-month data preparation are documented in saved reports. Google Drive synchronization and full 13-file DVC restoration are confirmed by user-provided terminal output in the [full restoration report](../reports/data_versioning/google_drive_full_restore_v1.json). Expanded model evaluation remains pending. Source timezone, completeness and operational impact remain unresolved.
 
 ## 16. Definition of Done
 
@@ -333,4 +333,4 @@ The April–June benchmark has reached final evaluation. The earlier progress no
 
 **Approved expansion decision, November 15, 2026.** Use July 2025 to compare models, August to calibrate uncertainty and September for a new final test. The user agreed to the experiment proposal in chat. The [expansion protocol](../configs/expansion_v1.json) specifies the cutoffs, selection rules and local resource budget.
 
-**Recommended action.** Complete an isolated DVC restoration of all 13 snapshot files and compare their SHA-256 hashes with the inventory before implementing PySpark preparation.
+**Recommended action.** Check Java compatibility and local resource availability for the PySpark preparation path.

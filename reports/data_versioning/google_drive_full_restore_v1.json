@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "verified_on": "2026-11-17",
+  "evidence_source": "Terminal output",
+  "snapshot_commit": "99ce2d6",
+  "inventory": "configs/data_snapshot_v1.json",
+  "remote_name": "gdrive",
+  "method": "DVC pull into a separate Git checkout with an empty cache, followed by file-size and SHA-256 verification against the committed inventory",
+  "files_restored": 13,
+  "files_verified": 13,
+  "scope": {
+    "raw_monthly_files": 6,
+    "geographic_reference_files": 1,
+    "prepared_monthly_tables": 6
+  }
+}

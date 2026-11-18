@@ -13,11 +13,13 @@
   "upload_evidence": "Lookup push reported 1 file pushed; subsequent push reported 12 files pushed.",
   "remote_status_evidence": "Cache and remote 'gdrive' are in sync.",
   "authentication": "User-owned Desktop OAuth client; private settings in Git-ignored .dvc/config.local; user tokens stored outside Git",
-  "restore_report": "reports/data_versioning/google_drive_restore_v1.json",
-  "restore_scope": "Lookup only; full 13-file DVC restoration remains pending",
+  "restore_report": "reports/data_versioning/google_drive_full_restore_v1.json",
+  "restore_scope": "All 13 snapshot files; sizes and SHA-256 fingerprints matched the inventory at commit 99ce2d6 in a separate checkout with an empty cache",
   "historical_connector_backup": {
     "folder_url": "https://drive.google.com/drive/folders/1NPvjaWVyGu1ljigLog4_YM-Seb8cHwEe",
     "evidence_status": "Requires validation",
-    "description": "Earlier documentation described a separate connector upload and 13-file restoration. The original per-file Drive-ID record is absent. Historical claims are retained in the restoration report."
-  }
+    "description": "Earlier documentation described a separate connector upload and 13-file restoration. The original per-file Drive-ID record is absent. Historical claims are retained in the earlier restoration record.",
+    "record": "reports/data_versioning/google_drive_restore_v1.json"
+  },
+  "restore_verified_on": "2026-11-17"
 }

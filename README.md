@@ -13,9 +13,9 @@ Reviewed November 17, 2026.
 | April–June benchmark | Baselines, LightGBM validation, frozen June 15–30 evaluation, MLflow model reproduction and Tableau presentation complete |
 | April–September data | Six monthly zone-hour tables validated across 262 zones, including zero observed-count hours |
 | Data versioning | Six raw files, one zone lookup and six prepared tables registered with DVC; user terminal output confirms Google Drive synchronization |
-| Recovery test | Lookup restored into a separate project with an empty cache and matching SHA-256; full 13-file DVC restoration pending |
+| Recovery test | All 13 files restored from Google Drive into a separate checkout of commit `99ce2d6` with an empty cache; file sizes and SHA-256 fingerprints matched the committed inventory |
 | Expanded forecasting | July development folds, August calibration and September final holdout approved; expanded modeling and scoring pending |
-| Next action | Restore all 13 files in an isolated checkout and verify their hashes, then implement the PySpark preparation path |
+| Next action | Check Java compatibility and local resource availability, then implement and validate the PySpark preparation path |
 
 The [expansion protocol](configs/expansion_v1.json) defines the new evaluation dates. The [workflow](docs/EXPANSION_WORKFLOW.md) covers PySpark, additional features/models, intervals, SHAP, FastAPI, frontend, Power BI, simulation and monitoring. These are planned capabilities.
 
@@ -79,7 +79,7 @@ uv run --locked --extra modeling --extra data-versioning dvc pull
 uv run --locked --extra modeling --extra data-versioning dvc status --cloud
 ```
 
-On a separate checkout with an empty cache, compare every restored file's SHA-256 with the inventory. User terminal output currently verifies this recovery test for the lookup only. A full snapshot restoration remains the next verification task. Earlier connector-based recovery claims are retained with their evidence status in the [restoration report](reports/data_versioning/google_drive_restore_v1.json).
+The [full restoration report](reports/data_versioning/google_drive_full_restore_v1.json) records the completed November 17 test from user-provided terminal output. A separate checkout of commit `99ce2d6` with an empty cache fetched and restored all 13 files. Every file's size and SHA-256 matched the inventory at that commit. When reproducing another data version, compare the restored files against that version's committed inventory. The earlier lookup test and connector-based claims retain their historical evidence status in the [earlier restoration record](reports/data_versioning/google_drive_restore_v1.json).
 
 Private settings live in Git-ignored `.dvc/config.local`. Keep downloaded OAuth JSON and user tokens in private storage. Google Drive access is required to reproduce these data from the configured remote. The official source URLs provide an acquisition route whose downloaded bytes must be checked against the manifest.
 

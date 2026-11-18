@@ -2,7 +2,7 @@
   "snapshot_name": "april_september_2025",
   "inventory_version": 1,
   "recorded_on": "2026-11-16",
-  "status": "DVC synchronization confirmed for 13 files; lookup-only DVC restoration verified; full snapshot DVC restoration pending",
+  "status": "DVC synchronization and full 13-file restoration verified; all file sizes and SHA-256 fingerprints matched the committed inventory",
   "storage_selection": "Google Drive DVC remote gdrive",
   "manifest_sha256": "aad764217768146eac59337b8c69972525ee6f2ed12357f4ac9f1c20adcc12d9",
   "file_count": 13,
@@ -121,6 +121,7 @@
   ],
   "updated_on": "2026-11-17",
   "storage_record": "configs/google_drive_storage.json",
-  "restore_report": "reports/data_versioning/google_drive_restore_v1.json",
-  "authoritative_inventory": "configs/data_snapshot_v1.json"
+  "restore_report": "reports/data_versioning/google_drive_full_restore_v1.json",
+  "authoritative_inventory": "configs/data_snapshot_v1.json",
+  "restored_snapshot_commit": "99ce2d6"
 }

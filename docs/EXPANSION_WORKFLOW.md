@@ -7,7 +7,7 @@ Drafted November 13, 2026. Status reconciled November 17, 2026. This plan connec
 | Step | Status | Evidence or remaining work |
 |---|---|---|
 | 1. Expanded experiment | Completed | Approved configuration and benchmark references saved |
-| 2. Data coverage and recovery | In progress | Six monthly tables validated; 13 files synchronized through DVC; isolated lookup restoration passed; full snapshot restoration pending |
+| 2. Data coverage and recovery | Completed | Six monthly tables validated; 13 files synchronized through DVC; isolated full restoration at commit `99ce2d6` passed size and SHA-256 checks |
 | 3–14. Spark through final demonstration | Not started | Detailed designs, implementation and their completion checks remain pending |
 
 The original Tableau dashboard and MLflow benchmark support these later steps. Their existing results describe the June benchmark. The [data documentation](DATA_DOCUMENTATION.md) and [storage record](../configs/google_drive_storage.json) describe current snapshot and recovery evidence.
@@ -60,7 +60,7 @@ Keep the completed data/report fingerprints, selected settings and June final-te
 
 Reuse manifest integrity checks, exclusions, schema validation and complete zone-hour grids. Review cross-file date exceptions with the established rules. Keep final-holdout analysis limited to predefined integrity checks until selection freezes.
 
-DVC now tracks six raw files, the reference lookup and six monthly prepared snapshots. Git stores 13 adjacent DVC references and public configuration. The selected remote is Google Drive. User terminal output confirms upload and synchronization for all 13 files and an empty-cache lookup restore with matching SHA-256. Full 13-file restoration remains pending.
+DVC now tracks six raw files, the reference lookup and six monthly prepared snapshots. Git stores 13 adjacent DVC references and public configuration. The selected remote is Google Drive. User terminal output confirms upload and synchronization for all 13 files. An isolated checkout of commit `99ce2d6` with an empty cache restored all 13 files and matched every file size and SHA-256 against its committed inventory. The [full restoration report](../reports/data_versioning/google_drive_full_restore_v1.json) records this verification.
 
 **Deliverable:** versioned data snapshots, source manifest and restoration instructions.
 
@@ -208,7 +208,7 @@ The user approved the [expansion protocol](../configs/expansion_v1.json) on Nove
 
 On November 15, official file availability and sizes were verified. The three additional raw files total 201,670,416 bytes, approximately 192.33 MiB. The current 13-file snapshot totals 421,263,309 bytes. These are recorded snapshot sizes. Recheck free disk space and installation requirements before recovery or Spark work under the approved budget.
 
-Restore all 13 DVC-tracked files into an isolated checkout with an empty cache and compare their SHA-256 hashes with the authoritative inventory. Record the result and scope of that test. Then check Java and resource availability before implementing the Spark preparation path. September remains reserved for the declared final assessment.
+Full snapshot restoration is verified in the [November 17 report](../reports/data_versioning/google_drive_full_restore_v1.json). Check Java compatibility, package requirements and available local memory/disk before implementing the Spark preparation path. Validate Spark outputs against the existing monthly tables using the same snapshots and exclusion rules. September remains reserved for the declared final assessment.
 
 ## Completion and claim rules
 
