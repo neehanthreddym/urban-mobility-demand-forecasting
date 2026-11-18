@@ -1,0 +1,23 @@
+{
+  "record_version": 1,
+  "recorded_on": "2026-11-17",
+  "storage_type": "Google Drive DVC remote",
+  "remote_name": "gdrive",
+  "remote_url": "gdrive://11Hs3fVH50aKECPCNhMVIxN4L8ZxL7tun",
+  "configuration_path": ".dvc/config",
+  "inventory_path": "configs/data_snapshot_v1.json",
+  "tracked_file_count": 13,
+  "total_size_bytes": 421263309,
+  "pointer_rule": "Each inventory file has an adjacent .dvc reference committed to Git.",
+  "synchronization_status": "Confirmed by user-provided dvc push and dvc status --cloud terminal output",
+  "upload_evidence": "Lookup push reported 1 file pushed; subsequent push reported 12 files pushed.",
+  "remote_status_evidence": "Cache and remote 'gdrive' are in sync.",
+  "authentication": "User-owned Desktop OAuth client; private settings in Git-ignored .dvc/config.local; user tokens stored outside Git",
+  "restore_report": "reports/data_versioning/google_drive_restore_v1.json",
+  "restore_scope": "Lookup only; full 13-file DVC restoration remains pending",
+  "historical_connector_backup": {
+    "folder_url": "https://drive.google.com/drive/folders/1NPvjaWVyGu1ljigLog4_YM-Seb8cHwEe",
+    "evidence_status": "Requires validation",
+    "description": "Earlier documentation described a separate connector upload and 13-file restoration. The original per-file Drive-ID record is absent. Historical claims are retained in the restoration report."
+  }
+}

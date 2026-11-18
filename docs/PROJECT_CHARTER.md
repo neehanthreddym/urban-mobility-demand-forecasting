@@ -2,7 +2,9 @@
 
 **Decision package D01–D20 approved by the user on November 3, 2026.**
 
-This charter is the authoritative project reference. The user approved D01–D20 as written, including responsibilities and the effort estimate. These decisions establish the project protocol; empirical checks remain mandatory and no experimental findings are implied. Remaining uses of “proposed” describe the approved plan, not a pending user decision. As of November 5, 2026, April data screening and exclusion inspection are complete; aggregation code is prepared, and no forecasting models have been trained.
+This charter is the authoritative project reference. D01–D20 record the approved April–June benchmark protocol. The [expanded experiment configuration](../configs/expansion_v1.json), approved November 15, 2026, defines the subsequent April–September evaluation design. Implementation choices explicitly marked Proposed or TBD remain unresolved.
+
+Status reviewed November 17, 2026. The April–June baseline and LightGBM comparison, frozen June evaluation, MLflow reproduction and Tableau dashboard are complete. April–September monthly preparation and DVC synchronization are complete. An isolated DVC lookup restoration passed. Full snapshot restoration, PySpark preparation and expanded forecasting experiments remain pending.
 
 ## 1. Project Overview
 
@@ -11,14 +13,14 @@ This charter is the authoritative project reference. The user approved D01–D20
 | Project name | Urban Mobility Demand Forecasting and Capacity Planning |
 | Description | Forecast hourly recorded yellow-taxi pickups by NYC TLC taxi zone and produce interpretable indicators for short-term capacity review. |
 | Project type | Reproducible data-science portfolio project owned by the user, with Codex assistance |
-| Lifecycle stage | CRISP-DM Data Understanding, with initial Data Preparation implementation |
+| Lifecycle stage | CRISP-DM Data Preparation for the expansion; original benchmark evaluated |
 | Framework | CRISP-DM |
-| Status | In progress — April screening/exclusions reviewed; zone-hour aggregation script and tests prepared; full build pending |
+| Status | In progress — six monthly datasets validated and synchronized through DVC; lookup restoration verified; expansion modeling pending |
 | Proposed delivery plan | Original six-week estimate was based on two contributors. Re-estimate after the first data/pipeline milestone; no fixed solo deadline is committed |
 
 ### Approved decision register
 
-Every row has status **Approved by user — November 3, 2026**. References to decision IDs elsewhere inherit that status. The user subsequently confirmed sole ownership; no collaborator acknowledgment is required. Empirical validation remains mandatory.
+Every row records the April–June decision package **Approved by user — November 3, 2026**. References to decision IDs elsewhere inherit that status for the original benchmark. The user subsequently confirmed sole ownership. The expanded experiment configuration governs July development, August calibration and September testing. Empirical validation remains mandatory.
 
 | ID | Decision | Recommendation and reason |
 |---|---|---|
@@ -88,11 +90,13 @@ A baseline-winning or inconclusive result can complete the project if transparen
 
 D01–D18 define the proposed MVP: one taxi type, three months, all in-scope TLC pickup zones, hourly counts, quality checks, EDA, three baselines, one ML family, chronological validation, reproducible training/evaluation, static forecast outputs, and plots.
 
+The original implementation uses PyArrow and pandas for preparation. The approved DuckDB tool proposal in D13 should be read alongside the actual pipeline described in the README. The six-month data inventory and Google Drive storage record document the current expansion inputs.
+
 Use calendar hour, day of week, weekend indicator, categorical pickup zone, counts at lags 2, 3, 24, 48, and 168 hours, and trailing means over 3, 24, and 168 buckets ending at lag 2. For target bucket `t`, no count newer than `y[t-2]` is permitted. No fare, tip, duration, drop-off, or other target-trip outcome is a predictor.
 
 ### Potential expansion
 
-Additional months/years or service types, weather/events, prediction intervals, an interactive dashboard, a FastAPI service, and performance/drift monitoring remain optional. A longer-horizon forecast is also an expansion. Each requires D19 approval and an updated protocol before work begins.
+The user authorized the expansion workflow and approved the six-month scientific protocol. July–September data acquisition, quality checks and monthly preparation are complete. The workflow covers PySpark, external features, additional model families, intervals, SHAP, FastAPI, a frontend, Power BI, allocation simulation and monitoring. Detailed source choices and implementation designs remain subject to validation. The published Tableau dashboard demonstrates the original June benchmark.
 
 ### Non-goals
 
@@ -108,7 +112,7 @@ The dictionary defines `tpep_pickup_datetime` as meter-engagement time and `PULo
 
 ### Acquisition and versioning proposal
 
-After approval, obtain `yellow_tripdata_2025-04.parquet`, `yellow_tripdata_2025-05.parquet`, and `yellow_tripdata_2025-06.parquet` through the corresponding official TLC download links, plus the linked taxi-zone lookup CSV. No trip or lookup data have been downloaded for this decision package. Maps can use lookup labels initially; obtain the official zone geometry only if a map is needed.
+Six yellow-taxi files for April–September 2025 and the taxi-zone lookup CSV have been acquired and fingerprinted in the [manifest](../data/manifest.json). Six monthly zone-hour tables have passed preparation checks. The [data documentation](DATA_DOCUMENTATION.md) records provenance limitations, exclusions and validation evidence. Obtain official zone geometry if a later map requires it.
 
 Use sequential HTTPS downloads, check response status and Parquet readability, and record resolved URL, retrieval time, byte size, SHA-256, schema, source terms, and applicable reference-file hash. These immutable snapshots define the data version; the live source URL alone is insufficient.
 
@@ -135,7 +139,7 @@ Threshold breaches require a documented correction or explicit scope/protocol am
 
 ### Privacy and external data
 
-Publish aggregate forecasts and summaries; do not identify passengers/drivers, infer individual movements, or claim geographic differences demonstrate discrimination or unmet need. Keep raw data local and reproducible through official acquisition instructions. Retain one raw snapshot for reproduction within D14; review retained data at final delivery. No special retention obligation is asserted without source evidence.
+Publish aggregate forecasts and summaries. Protect passenger/driver privacy and avoid individual-movement inferences. Geographic differences require operational evidence before drawing conclusions about discrimination or unmet need. Store raw snapshots in project-controlled local and Google Drive DVC storage, with official acquisition instructions and hashes. Retain one raw snapshot for reproduction within D14 and review retained data at final delivery.
 
 Weather and event datasets are deferred, not needed for the MVP. Later use requires a public source, compatible terms, geographic/time coverage, historical availability as of forecast origin, and validation improvement.
 
@@ -200,18 +204,20 @@ Required: charter; source manifest, data documentation and dictionary; ingestion
 
 Proposed forecast columns are project output fields, not asserted source columns: forecast origin, target-hour start, zone ID, predicted pickups, model/experiment ID, historical-reference flag, and optional hypothetical scenario gap.
 
-The README will become the project entry point during implementation. API/dashboard, prediction intervals, and monitoring are post-validation options, not completion requirements.
+The README is the project entry point. The Tableau dashboard presents the completed June benchmark. API, frontend, prediction intervals and monitoring are planned expansion deliverables. The final case study and complete expanded reproduction remain pending.
 
 ## 10. CRISP-DM Phases
+
+This table records the April–June benchmark. For the expansion, monthly validation and preparation are complete, full snapshot DVC restoration is pending, and PySpark, expanded features, model comparison, interval calibration and final testing remain to be implemented.
 
 | Phase | Objective | Principal activities | Required output | Completion evidence | Current status |
 |---|---|---|---|---|---|
 | Business Understanding | Agree on decision and target | Review D01–D20, assumptions, roles, and success criteria | Approved charter | User approval and sole ownership recorded | Completed |
-| Data Understanding | Verify source suitability | Acquire approved snapshots, inspect schema/coverage, validate quality, perform EDA | Manifest, dictionary, quality report, EDA | April screening/exclusions reviewed; EDA and later months remain | In progress |
-| Data Preparation | Build the modeling table | Apply approved rules, aggregate, create lag features, enforce splits | Reproducible zone-hour dataset | April aggregation code prepared; full build, features, and splits pending | In progress |
-| Modeling | Compare simple and ML forecasts | Run baselines, bounded tuning, ablation, and final refit | Traceable configurations and forecast artifacts | Runs reproduce and selection follows the fixed rule | Not started |
-| Evaluation | Assess generalization and limits | Score frozen test, analyze zone/time errors, review planning interpretation | Evaluation report and recommendation | Test scored only after protocol freeze; limitations explicit | Not started |
-| Deployment | Deliver portfolio demonstration | Package static outputs, case study, and reproduction commands | Reviewable reproducible project | Principal results reproduced from a clean environment | Not started |
+| Data Understanding | Verify source suitability | Acquire snapshots, inspect schema/coverage, validate quality, perform EDA | Manifest, quality reports, EDA | April EDA reviewed; April–June screening and exclusions reconciled | Completed |
+| Data Preparation | Build the modeling table | Apply rules, aggregate, create lag features, enforce splits | Reproducible zone-hour dataset | Combined panel and leakage-aware feature/split reports saved | Completed |
+| Modeling | Compare simple and ML forecasts | Run baselines, bounded tuning, ablation, and final refit | Configurations and forecast artifacts | Three baselines and six LightGBM configurations evaluated; selected fit reproduced in MLflow | Completed |
+| Evaluation | Assess generalization and limits | Score frozen test, analyze zone/time errors, review interpretation | Evaluation report and recommendation | June 15–30 scores and guardrails recorded; fresh-process model reload checked | Completed |
+| Deployment | Deliver portfolio demonstration | Package outputs, case study, and reproduction commands | Reviewable reproducible project | Tableau published; final case study and full delivery review pending | In progress |
 
 ## 11. Collaboration and Responsibilities
 
@@ -226,7 +232,7 @@ The user is the sole project owner and decision-maker. Codex assists with implem
 | Evaluation and testing | User | Codex assists with tests, error analysis, and a separate review pass |
 | Documentation and demonstration | User | Codex prepares artifacts and verifies reproduction instructions |
 
-Track tasks in `docs/TASKS.md`, decisions in `docs/DECISIONS.md`, and experiments in `reports/experiments.csv` during implementation. These remain planned artifacts. Each experiment records its ID, source hashes, Git revision, configuration, split boundaries, seeds, metrics, runtime, and artifact path.
+Record current tasks and scope in this charter and the expansion workflow, decisions in the approved configuration, and experiments in `reports/experiments.csv`, MLflow and per-run reports. Earlier proposals for `docs/TASKS.md` and `docs/DECISIONS.md` were not implemented. Experiment records include IDs, source hashes, Git revision, configuration, split boundaries, seeds, metrics and artifact paths.
 
 Use small, reviewable Git changes. Check analytical assumptions and code, run critical tests, and reproduce principal results from a clean environment. A Codex review is assistance, not independent human peer review. Use a weekly 30-minute progress review to adjust workload and record decisions.
 
@@ -265,7 +271,7 @@ These are empirical limitations; approval cannot turn them into established fact
 | Thresholds and historical flags are operationally meaningful. | Treat them as portfolio conventions until an operator validates them; do not claim business-derived thresholds. |
 | Weather/events or additional complexity could help. | Deferred hypothesis, not an MVP dependency or established benefit. |
 
-Unknown data counts, file sizes, hashes, measured quality rates, model scores, training times, exact installable package versions, and actual operator impact will be measured at the appropriate phase. They are not decisions to fabricate in Business Understanding.
+The manifest, monthly reports, lockfile and June evaluation record measured data identities, quality results, package versions and benchmark scores. Expanded model results, source completeness, source clock semantics and actual operator impact remain validation obligations.
 
 ## 14. Risks and Mitigations
 
@@ -304,7 +310,7 @@ All previously open design questions now have a proposed resolution, an accounta
 | Delivery and expansion | D18–D19 | Approved by user | User |
 | Timeline | D20: milestone sequence retained; duration re-estimated after the first data/pipeline milestone | Updated for confirmed solo ownership | User |
 
-**Approval record:** The user approved D01–D20 as written on November 3, 2026, replying “Yes I approve” to the full decision package, including proposed responsibilities and effort estimate. The user subsequently clarified that they are the sole collaborator; this clarification supersedes the two-person assignments and removes the acknowledgment requirement. The original timeline is an estimate requiring reassessment for solo execution. April acquisition, preliminary quality screening, and exclusion inspection are complete; the aggregation script is prepared and six synthetic tests pass. The full zone-hour build remains pending. Source-timezone semantics, later-month quality, resource use, and model performance remain validation obligations.
+**Approval record.** The user approved D01–D20 on November 3, 2026 and subsequently confirmed sole ownership. The original timeline needs reassessment for solo execution. The expanded experiment was approved November 15. The completed June evaluation and six-month data preparation are documented in saved reports. Google Drive synchronization and lookup-only restoration are confirmed by user-provided terminal output. Full DVC snapshot restoration and expanded model evaluation remain pending. Source timezone, completeness and operational impact remain unresolved.
 
 ## 16. Definition of Done
 
@@ -327,4 +333,4 @@ The April–June benchmark has reached final evaluation. The earlier progress no
 
 **Approved expansion decision, November 15, 2026.** Use July 2025 to compare models, August to calibrate uncertainty and September for a new final test. The user agreed to the experiment proposal in chat. The [expansion protocol](../configs/expansion_v1.json) specifies the cutoffs, selection rules and local resource budget.
 
-**Recommended action.** Acquire the verified July–September yellow-taxi files and record their provenance before extending monthly validation.
+**Recommended action.** Complete an isolated DVC restoration of all 13 snapshot files and compare their SHA-256 hashes with the inventory before implementing PySpark preparation.

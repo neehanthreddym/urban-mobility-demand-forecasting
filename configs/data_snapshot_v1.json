@@ -1,7 +1,7 @@
 {
   "snapshot_version": 1,
   "recorded_on": "2026-11-16",
-  "status": "Drive backup and full restoration verified; DVC synchronization pending",
+  "status": "DVC synchronization confirmed for 13 files; lookup-only DVC restoration verified; full snapshot DVC restoration pending",
   "scope": "April\u2013September 2025 source files, geographic lookup and six validated monthly zone-hour tables",
   "source_manifest": "data/manifest.json",
   "source_manifest_sha256": "aad764217768146eac59337b8c69972525ee6f2ed12357f4ac9f1c20adcc12d9",
@@ -106,5 +106,6 @@
     }
   ],
   "storage_record": "configs/google_drive_storage.json",
-  "restore_report": "reports/data_versioning/google_drive_restore_v1.json"
+  "restore_report": "reports/data_versioning/google_drive_restore_v1.json",
+  "updated_on": "2026-11-17"
 }

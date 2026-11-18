@@ -1,8 +1,10 @@
 # Data Documentation
 
+Current status reviewed November 17, 2026. April–September 2025 source files and six complete monthly zone-hour tables are validated. The April–June forecasting benchmark has been evaluated. Expanded forecasting experiments remain pending. The [snapshot inventory](../configs/data_snapshot_v1.json) identifies the 13 DVC-tracked data files.
+
 ## Timestamp decision — D05
 
-Reviewed November 4, 2026. Applies to the approved April–June 2025 yellow-taxi MVP; only April has been inspected locally.
+Evidence reviewed November 4, 2026 using April. The same processing assumption applies to the validated April–September 2025 snapshots.
 
 **Decision:** Retain the approved `America/New_York` interpretation as an explicit processing assumption. Preserve recorded clock values when assigning local dates and hours. The processing policy is settled for the MVP; the source's precise daylight-saving convention is not verified.
 
@@ -23,8 +25,8 @@ Evidence reviewed does not justify claiming that the source timezone has been co
 1. Keep the original Parquet data unchanged and identify the input snapshot through its manifest hash.
 2. Interpret naive pickup values as NYC local wall time under D05. Do not first label them UTC and convert them to New York; that would shift recorded dates and hours without evidence.
 3. For a timezone-aware derived key, attach `America/New_York` while retaining the wall-clock value. Label the interpretation as assumed in dataset documentation. Any UTC value derived from that key inherits the same assumption.
-4. Define April membership using the recorded local interval `[2025-04-01 00:00, 2025-05-01 00:00)` under this assumption, and hourly membership using half-open intervals `[hour, hour + 1 hour)`.
-5. The approved April–June window contains no daylight-saving clock transition under `America/New_York`. This avoids repeated/nonexistent local hours within the MVP; it does not prove which clock convention the source used.
+4. Define each file's month membership using its recorded local month start and next-month start under this assumption. Define hourly membership using half-open intervals `[hour, hour + 1 hour)`.
+5. The approved April–September window contains no daylight-saving clock transition under `America/New_York`. Source clock semantics remain an open factual question.
 6. Before including a clock-change period, specify and test ambiguous/nonexistent-hour behavior. Do not silently infer which repeated hour a timezone-free record belongs to.
 7. Before joining weather/events, interpreting UTC instants, or claiming actual operational clock alignment, obtain dataset-specific clarification or run and document an appropriate sensitivity analysis. Do not treat UTC alignment as verified solely because localization succeeds.
 
@@ -70,9 +72,9 @@ The prepared target is one row per in-scope zone and assumed-NYC-local hour, wit
 
 Retain all 262 in-scope lookup zones and all 720 April hours, including inactive zones: **188,640 expected rows** and **3,961,082 expected total pickups** for the inspected snapshot. Fill unobserved zone-hours with zero only after verifying the successful screening, reconciled exclusions, coverage checks, and exact input identities. These are observed-count zeros; source completeness and unserved demand remain unobserved.
 
-`scripts/build_april_zone_hour.py` implements batching, explicit timestamp localization, count reconciliation, and Parquet round-trip validation. Six synthetic tests pass, covering month boundaries, missing/unmapped identifiers, geographic exclusions, clock preservation, inactive zones, and invalid aggregate values. The full data build has not been executed by Codex; its expected dimensions and totals above are acceptance checks, not newly generated results.
+`scripts/build_april_zone_hour.py` implements batching, explicit timestamp localization, count reconciliation, and Parquet round-trip validation. The completed [April build](../reports/data_preparation/april_2025/20261106T041153628221Z/report.json) confirms 188,640 rows and 3,961,082 accepted pickups. The six original synthetic transformation tests covered month boundaries, missing/unmapped identifiers, geographic exclusions, clock preservation, inactive zones, and invalid aggregate values. The later targeted monthly pipeline check passed 28 tests.
 
-Prepared Parquet snapshots will be saved under ignored `data/processed/april_2025/<run_id>/`; aggregate validation/provenance reports will be saved under versionable `reports/data_preparation/april_2025/<run_id>/`. No forecast features or train/test splits are created in this step.
+Prepared April Parquet snapshots are saved under `data/processed/april_2025/<run_id>/`. Git tracks the selected snapshot's adjacent DVC reference and the aggregate validation report under `reports/data_preparation/april_2025/<run_id>/`. The builder produces the hourly target table. Feature creation and split assignment occur in the subsequent forecasting pipeline.
 
 ## Monthly quality-screening extension
 
@@ -80,11 +82,15 @@ Prepared Parquet snapshots will be saved under ignored `data/processed/april_202
 
 #### Recoverable Google Drive snapshot
 
-On November 16, 2026, the six April–September raw Parquet files, zone lookup and six validated monthly tables were uploaded to the separate [project data folder](https://drive.google.com/drive/folders/1NPvjaWVyGu1ljigLog4_YM-Seb8cHwEe), under `snapshot-v1-april-september-2025`. The 13 data files total 421,263,309 bytes. The `raw`, `reference` and `processed` subfolders preserve their roles. Prepared table filenames include the month.
+As of November 17, 2026, the six April–September raw Parquet files, zone lookup and six validated monthly tables are registered with DVC and synchronized to `gdrive://11Hs3fVH50aKECPCNhMVIxN4L8ZxL7tun`. The 13 data files total 421,263,309 bytes. The user reported one lookup upload, then 12 further file uploads, followed by an in-sync remote status.
 
-The [storage record](../configs/google_drive_storage.json) maps every Drive file ID to its original local path, size, SHA-256 and validation report. The [snapshot inventory](../configs/data_snapshot_v1.json) defines the selected inputs. All 13 Drive copies were downloaded to a separate temporary directory and matched their expected byte sizes and SHA-256 fingerprints. The [restoration report](../reports/data_versioning/google_drive_restore_v1.json) records the checks. Temporary restored copies were removed after verification.
+The [storage record](../configs/google_drive_storage.json) identifies the DVC remote, inventory and available verification evidence. The authoritative [snapshot inventory](../configs/data_snapshot_v1.json) defines the selected file paths, sizes, SHA-256 hashes and monthly validation reports. The other inventories point to this record for current status. Adjacent `.dvc` files identify the cached contents used for each local path.
 
-DVC with Google Drive support is resolved in `uv.lock` through the `data-versioning` extra. A separate `dvc-cache` folder is reserved for DVC. Local DVC initialization encountered a cloud-only `.git/info/exclude` file and was stopped. Keep the Git metadata available locally before retrying initialization. DVC authorization, pointer creation, push and pull verification remain pending. This backup was uploaded and restored using the connected Google Drive integration.
+DVC initialization, Desktop OAuth configuration, authorization and pointer creation have succeeded. The lookup was pulled into a separate no-SCM project with an empty cache. Its SHA-256 matched the original. The [restoration report](../reports/data_versioning/google_drive_restore_v1.json) records this lookup-only test from user-provided terminal output. A complete 13-file DVC restoration and hash comparison remains pending.
+
+Earlier documentation described a connector-based upload and 13-file restoration in a different Drive folder. Its per-file storage record is absent. The original claim is retained as a historical record with evidence marked `Requires validation` inside the restoration report. The current recovery evidence is the DVC lookup test.
+
+DVC with Google Drive support is locked through the `data-versioning` extra. Use `uv sync --locked --extra modeling --extra data-versioning` for the complete current environment. Public remote configuration is in `.dvc/config`. Private OAuth configuration is in Git-ignored `.dvc/config.local`. Cloud-placeholder files previously stalled Python, uv, pytest and Git reads. Keep required project files available locally during reproduction.
 
 On November 15, 2026 the user reported that the additional files were downloaded. All three local byte sizes match the official HTTP header checks. Their SHA-256 fingerprints and official catalog URLs are recorded in the manifest. Exact download dates and browser download origins remain unconfirmed.
 

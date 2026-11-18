@@ -93,5 +93,10 @@
     }
   ],
   "total_bytes": 421263309,
-  "manifest_sha256": "aad764217768146eac59337b8c69972525ee6f2ed12357f4ac9f1c20adcc12d9"
+  "manifest_sha256": "aad764217768146eac59337b8c69972525ee6f2ed12357f4ac9f1c20adcc12d9",
+  "status": "DVC synchronization confirmed for 13 files; lookup-only DVC restoration verified; full snapshot DVC restoration pending",
+  "updated_on": "2026-11-17",
+  "storage_record": "configs/google_drive_storage.json",
+  "restore_report": "reports/data_versioning/google_drive_restore_v1.json",
+  "authoritative_inventory": "configs/data_snapshot_v1.json"
 }

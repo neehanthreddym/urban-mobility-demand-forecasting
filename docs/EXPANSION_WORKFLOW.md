@@ -1,6 +1,16 @@
-w# Project expansion workflow
+# Project expansion workflow
 
-Drafted November 13, 2026. This plan connects the requested capabilities to the implemented April–June 2025 pipeline. The user requested the expansion; dataset choices, revised evaluation boundaries and resource estimates below are proposals for the next iteration. The original charter remains the record of the completed benchmark. Update its expansion decisions before new experiments.
+Drafted November 13, 2026. Status reconciled November 17, 2026. This plan connects the requested capabilities to the evaluated April–June 2025 benchmark. The user approved the [expanded experiment configuration](../configs/expansion_v1.json) on November 15. Its dates, availability rules, selection metrics and resource limits govern the expansion. Items explicitly labeled Proposed remain implementation choices to resolve.
+
+## Current progress
+
+| Step | Status | Evidence or remaining work |
+|---|---|---|
+| 1. Expanded experiment | Completed | Approved configuration and benchmark references saved |
+| 2. Data coverage and recovery | In progress | Six monthly tables validated; 13 files synchronized through DVC; isolated lookup restoration passed; full snapshot restoration pending |
+| 3–14. Spark through final demonstration | Not started | Detailed designs, implementation and their completion checks remain pending |
+
+The original Tableau dashboard and MLflow benchmark support these later steps. Their existing results describe the June benchmark. The [data documentation](DATA_DOCUMENTATION.md) and [storage record](../configs/google_drive_storage.json) describe current snapshot and recovery evidence.
 
 ## Starting evidence
 
@@ -46,11 +56,11 @@ Keep the completed data/report fingerprints, selected settings and June final-te
 
 ### 2. Extend the time coverage and make data versions recoverable
 
-**Proposed:** verify availability and sizes for July–September 2025 yellow-taxi files. Use April–June as initial history, July for rolling development folds, August for chronological interval calibration, and September as the next untouched final holdout, subject to source verification and protocol agreement. Declare the model refit schedule and calibration residual generation before evaluation. This six-month window offers additional temporal checks; annual-seasonality evidence would require longer coverage.
+**Approved protocol.** April–June supplies initial history, July supplies four rolling development folds, August supplies chronological interval calibration, and September supplies the next final holdout. The configuration fixes fold boundaries, fitting-label availability, the August 1 point-model fit, calibration boundaries and frozen September replay. Source files have been acquired and monthly tables validated. This six-month window offers additional temporal checks; annual-seasonality evidence requires longer coverage.
 
 Reuse manifest integrity checks, exclusions, schema validation and complete zone-hour grids. Review cross-file date exceptions with the established rules. Keep final-holdout analysis limited to predefined integrity checks until selection freezes.
 
-Adopt DVC for the raw, reference and prepared snapshots, with Git storing pointer metadata and configuration. Select a persistent remote or backup destination. A local DVC cache alone cannot make the data recoverable on another machine.
+DVC now tracks six raw files, the reference lookup and six monthly prepared snapshots. Git stores 13 adjacent DVC references and public configuration. The selected remote is Google Drive. User terminal output confirms upload and synchronization for all 13 files and an empty-cache lookup restore with matching SHA-256. Full 13-file restoration remains pending.
 
 **Deliverable:** versioned data snapshots, source manifest and restoration instructions.
 
@@ -108,7 +118,7 @@ At origin t, a univariate model's newest observed bucket is t-2. SARIMA, Prophet
 
 Keep MAE and pooled WMAPE, add RMSE, and retain zone/time error analysis. Treat zero-total WMAPE as undefined while reporting its absolute errors and volumes.
 
-**Proposed:** 90% prediction intervals calibrated using past residuals with a separate chronological calibration period, where appropriate. Establish a method for each model's intervals and retain nonnegative, ordered bounds. Report empirical coverage alongside average interval width, by fold and zone-volume group.
+**Approved interval protocol.** Fit the selected point forecaster at August 1 and keep its fitted parameters fixed through calibration and final testing. Use August absolute residuals per zone and the configured finite-sample 90% quantile to form bounds, clipping the lower bound to zero. Freeze radii before September. Report empirical coverage and mean width by zone-volume group. Coverage remains a measurement to evaluate on temporally dependent data.
 
 **Deliverable:** shared metrics and interval-evaluation module.
 
@@ -196,9 +206,9 @@ Summarize results and limitations in the final case study. Maintain a claim-to-e
 
 The user approved the [expansion protocol](../configs/expansion_v1.json) on November 15, 2026. The last hour of July and August is excluded from the respective scoring windows because its label arrives after the next decision time.
 
-On November 15, the official TLC listing and HTTP HEAD requests confirmed the three yellow-taxi files were available. July is 66,943,728 bytes, August is 62,293,743 bytes, and September is 72,432,945 bytes. Their combined download is 201,670,416 bytes, approximately 192.33 MiB. Available local disk space was approximately 12 GiB. The downloads fit above the approved 10 GiB free-space floor. The full 5 GiB persistent growth and 1 GiB temporary budget requires additional storage headroom before the complete expansion.
+On November 15, official file availability and sizes were verified. The three additional raw files total 201,670,416 bytes, approximately 192.33 MiB. The current 13-file snapshot totals 421,263,309 bytes. These are recorded snapshot sizes. Recheck free disk space and installation requirements before recovery or Spark work under the approved budget.
 
-Acquire the three files into the existing raw-data directory, then record download dates, source URLs, byte sizes and SHA-256 hashes in the manifest. Source integrity and predefined quality checks precede model work. September remains reserved for the declared final assessment.
+Restore all 13 DVC-tracked files into an isolated checkout with an empty cache and compare their SHA-256 hashes with the authoritative inventory. Record the result and scope of that test. Then check Java and resource availability before implementing the Spark preparation path. September remains reserved for the declared final assessment.
 
 ## Completion and claim rules
 

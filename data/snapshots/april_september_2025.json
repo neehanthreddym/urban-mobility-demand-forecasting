@@ -2,8 +2,8 @@
   "snapshot_name": "april_september_2025",
   "inventory_version": 1,
   "recorded_on": "2026-11-16",
-  "status": "Fingerprints verified; DVC registration and external-drive restoration pending",
-  "storage_selection": "External drive selected by user; destination path pending connection",
+  "status": "DVC synchronization confirmed for 13 files; lookup-only DVC restoration verified; full snapshot DVC restoration pending",
+  "storage_selection": "Google Drive DVC remote gdrive",
   "manifest_sha256": "aad764217768146eac59337b8c69972525ee6f2ed12357f4ac9f1c20adcc12d9",
   "file_count": 13,
   "total_size_bytes": 421263309,
@@ -118,5 +118,9 @@
       "provenance_path": "reports/data_preparation/monthly/2025-09/20261116T045946621544Z/report.json",
       "provenance_sha256": "1bd2237410ed243d09d6dba9ae09b1ebbb167121bf1c1c857ff2b6e4064c708c"
     }
-  ]
+  ],
+  "updated_on": "2026-11-17",
+  "storage_record": "configs/google_drive_storage.json",
+  "restore_report": "reports/data_versioning/google_drive_restore_v1.json",
+  "authoritative_inventory": "configs/data_snapshot_v1.json"
 }
