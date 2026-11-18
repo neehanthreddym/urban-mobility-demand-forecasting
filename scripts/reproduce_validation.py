@@ -16,7 +16,7 @@ import mlflow
 import numpy as np
 import pandas as pd
 
-from utils import ROOT, sha256
+from utils import ROOT, project_path, sha256
 from validate_lightgbm import BASE, load_validation_inputs
 from score_validation_baselines import SOURCE
 
@@ -62,12 +62,18 @@ def main():
     """
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tracking-uri", default=os.getenv("MLFLOW_TRACKING_URI", "http://127.0.0.1:5050"))
+    parser.add_argument("--source-report", default=str(SOURCE), help="Forecast-feature validation report.")
+    parser.add_argument("--baseline-report", default=str(BASE), help="Baseline results for the selected feature report.")
+    parser.add_argument("--reference-report", default=str(REFERENCE), help="LightGBM validation report to reproduce.")
     args = parser.parse_args()
+    source_path = project_path(args.source_report)
+    baseline_path = project_path(args.baseline_report)
+    reference_path = project_path(args.reference_report)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     original, audit = audit_original_script()
-    reference = json.loads(REFERENCE.read_text())
-    source, base, train, valid = load_validation_inputs()
-    if reference["source_sha256"] != source["dataset_sha256"] or sha256(BASE) != reference["baseline_report_sha256"]:
+    reference = json.loads(reference_path.read_text())
+    source, base, train, valid = load_validation_inputs(source_path, baseline_path)
+    if reference["source_sha256"] != source["dataset_sha256"] or sha256(baseline_path) != reference["baseline_report_sha256"]:
         raise ValueError("Reference experiment uses different inputs")
     features = reference["features"]
     if features != source["predictors"]:
@@ -84,9 +90,18 @@ def main():
         mlflow.log_params(dict(params, num_boost_round=reference["max_rounds"],
                                early_stopping_rounds=reference["early_stopping_rounds"]))
         revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-        provenance = dict(audit, git_revision=revision, source_sha256=source["dataset_sha256"],
-                          source_report_sha256=sha256(SOURCE), lockfile_sha256=sha256(ROOT / "uv.lock"),
-                          reference_report_sha256=sha256(REFERENCE), platform=platform.platform(),
+        provenance = dict(audit,
+                          git_revision=revision,
+                          source_sha256=source["dataset_sha256"],
+                          source_report=os.path.relpath(source_path, ROOT),
+                          source_report_sha256=sha256(source_path),
+                          baseline_report=os.path.relpath(baseline_path, ROOT),
+                          baseline_report_sha256=sha256(baseline_path),
+                          lockfile_sha256=sha256(ROOT / "uv.lock"),
+                          reference_report=os.path.relpath(reference_path, ROOT),
+                          reference_report_sha256=sha256(reference_path),
+                          historical_script_reference_report=os.path.relpath(REFERENCE, ROOT),
+                          platform=platform.platform(),
                           python=sys.version, lightgbm=lgb.__version__, mlflow=mlflow.__version__,
                           training_rows=len(train), validation_rows=len(valid),
                           validation_start=reference["validation_start"],

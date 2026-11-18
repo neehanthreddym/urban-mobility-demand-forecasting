@@ -177,8 +177,15 @@ paths.
 The regenerated April–June preparation and baseline stages reproduced
 572,208 zone-hours and weekly-baseline validation WMAPE of 23.935957%.
 The LightGBM loader accepted the new reports with 339,028 training rows
-and 87,770 validation rows. All 38 existing tests passed. Model fitting
-through the new command-line arguments remains to be verified.
+and 87,770 validation rows. All 38 existing tests passed.
+
+Model fitting through the report arguments reproduced validation MAE
+4.353107973 and WMAPE 18.547864672%. MLflow run
+`9046eecd82994dd392dc1e67b2c1af2b` recorded the selected model, training
+history, input reports and current locked environment. Reloading the saved
+model in a fresh Python process produced identical validation predictions.
+Input-report fingerprints and the lockfile fingerprint passed verification.
+See the [current-environment reproduction report](reports/reproducibility/9046eecd82994dd392dc1e67b2c1af2b/report.json).
 
 ## Combine April through June
 
@@ -249,6 +256,21 @@ uv run --locked --extra modeling --extra data-versioning python scripts/evaluate
 ```
 
 The local tracking server must be running. See the run at http://127.0.0.1:5050/#/experiments/1/runs/71dcb809d5c0409484d8b55b21751f17.
+
+The [historical reproduction report](reports/final_evaluation/f677e1268be24ed1bc62148442dbe380/report.json) records verified MLflow run `f677e1268be24ed1bc62148442dbe380`. It refitted the frozen configuration on 427,060 rows and evaluated the same 100,608 June zone-hours. MAE and WMAPE matched the original evaluation exactly for LightGBM and all three baselines, with maximum metric difference 0.0 at an absolute tolerance of 0.000001. LightGBM retained MAE 4.383744, WMAPE 19.640898%, all 20 busy-zone checks and the original recommendation. Reloaded predictions matched exactly, and the model and prediction-file SHA-256 fingerprints matched the original artifacts.
+
+To repeat that historical reproduction with the linked validation evidence, keep the local tracking server running and supply the reports explicitly:
+
+```sh
+uv run --locked --extra modeling --extra data-versioning \
+  python scripts/evaluate_final_test.py \
+  --source-report reports/data_preparation/forecast_features/20261118T041218185118Z/report.json \
+  --reference-report reports/lightgbm_validation/20261118T045410807447Z/report.json \
+  --verification-report reports/reproducibility/9046eecd82994dd392dc1e67b2c1af2b/report.json \
+  --reproduce-report reports/final_evaluation/71dcb809d5c0409484d8b55b21751f17/report.json
+```
+
+The explicit reproduction mode checks the frozen protocol, creates a separate MLflow run labelled `historical-reproduction` and compares its results with the original evaluation. This verifies repeatability of the previously evaluated June benchmark. September remains reserved for the expanded experiment's final evaluation.
 
 The DVC snapshot covers source data and monthly prepared tables. The benchmark commands also depend on pinned combined/feature snapshots and saved MLflow model/prediction artifacts referenced by their reports and scripts. Reproducing those artifacts from a fresh checkout requires checking their generated paths against the pinned inputs before proceeding. Complete clean-environment reproduction remains a delivery check.
 

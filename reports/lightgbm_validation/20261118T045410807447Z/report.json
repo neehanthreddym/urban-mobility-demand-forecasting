@@ -1,0 +1,69 @@
+{
+  "experiment_id": "20261118T045410807447Z",
+  "git_revision": "15511933c395ffbcda49ac22faee1913b03e88fc",
+  "script_sha256": "4c03c8a3b6b90fffab5aabd45402d28e1ba9c92e66451dfcbfa6a9fbb167bd3d",
+  "source_sha256": "da0160818e468ec24d30e0fb35a1c1334cd1baed69181048718e0548daaec4ae",
+  "source_report": "reports/data_preparation/forecast_features/20261118T041218185118Z/report.json",
+  "source_report_sha256": "929062413bff584e16ab4913f7eeb8d6ca4c861c10830b6540db97d3ff5a9b4a",
+  "baseline_report": "reports/baselines/20261118T041541799028Z/report.json",
+  "baseline_report_sha256": "65bbef559ca23bcecc7fc2aca6395e6882037ddf6daf40cda24f991d59ba95eb",
+  "platform": "macOS-27.2.1-arm64-arm-64bit",
+  "lightgbm_version": "4.7.0",
+  "params": {
+    "objective": "poisson",
+    "metric": "l1",
+    "learning_rate": 0.05,
+    "num_threads": 4,
+    "seed": 42,
+    "deterministic": true,
+    "force_col_wise": true,
+    "verbosity": -1
+  },
+  "max_rounds": 500,
+  "early_stopping_rounds": 50,
+  "features": [
+    "pickup_zone_id",
+    "hour",
+    "day_of_week",
+    "is_weekend",
+    "lag_2",
+    "lag_3",
+    "lag_24",
+    "lag_48",
+    "lag_168",
+    "mean_3_ending_lag_2",
+    "mean_24_ending_lag_2",
+    "mean_168_ending_lag_2"
+  ],
+  "training_rows": 339028,
+  "validation_rows": 87770,
+  "validation_start": "2025-06-01T00:00:00-04:00",
+  "validation_end_exclusive": "2025-06-14T23:00:00-04:00",
+  "best_candidate": {
+    "num_leaves": 31,
+    "min_child_samples": 50,
+    "iterations": 500,
+    "mae": 4.353107973366209,
+    "wmape_pct": 18.54786467195191,
+    "seconds": 5.775311999997939
+  },
+  "ablation_features": [
+    "pickup_zone_id",
+    "hour",
+    "day_of_week",
+    "is_weekend"
+  ],
+  "ablation": {
+    "num_leaves": 31,
+    "min_child_samples": 50,
+    "iterations": 500,
+    "mae": 4.363857796230869,
+    "wmape_pct": 18.593667868417768,
+    "seconds": 2.9215460830018856
+  },
+  "relative_gain_pct": 22.510452655674406,
+  "top20_passed": 20,
+  "selected_for_final_evaluation": "lightgbm",
+  "median_positive_volume_zone_wmape_pct": 65.26953823789376,
+  "runtime_seconds": 34.222110832997714
+}
