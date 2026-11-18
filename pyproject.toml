@@ -19,6 +19,9 @@ modeling = [
     "mlflow>=3.18.0",
     "scikit-learn",
 ]
+data-versioning = [
+    "dvc[gdrive]>=3.67.1",
+]
 
 [dependency-groups]
 dev = [

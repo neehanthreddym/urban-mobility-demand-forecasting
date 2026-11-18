@@ -323,4 +323,8 @@ The MVP is complete only when:
 
 ## 17. Immediate Next Step
 
-**Recommended action:** Run the synthetic transformation tests and April zone-hour build, then review the validation report before expanding data acquisition.
+The April–June benchmark has reached final evaluation. The earlier progress notes record intermediate milestones. The [final evaluation](../reports/final_evaluation/71dcb809d5c0409484d8b55b21751f17/metrics.csv) provides the measured benchmark.
+
+**Approved expansion decision, November 15, 2026.** Use July 2025 to compare models, August to calibrate uncertainty and September for a new final test. The user agreed to the experiment proposal in chat. The [expansion protocol](../configs/expansion_v1.json) specifies the cutoffs, selection rules and local resource budget.
+
+**Recommended action.** Acquire the verified July–September yellow-taxi files and record their provenance before extending monthly validation.

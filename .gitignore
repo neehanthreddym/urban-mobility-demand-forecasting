@@ -18,10 +18,20 @@ __pycache__/
 .DS_Store
 
 # Reproducible input/derived data; keep data/manifest.json versioned
-data/raw/
-data/reference/
+# Ignore dataset contents while allowing DVC metadata
+data/raw/**
+!data/raw/**/
+!data/raw/**/*.dvc
+!data/raw/**/.gitignore
+data/reference/**
+!data/reference/**/
+!data/reference/**/*.dvc
+!data/reference/**/.gitignore
+data/processed/**
+!data/processed/**/
+!data/processed/**/*.dvc
+!data/processed/**/.gitignore
 data/interim/
-data/processed/
 data/external/
 
 # Bulk generated artifacts; keep small quality reports under reports/ versioned

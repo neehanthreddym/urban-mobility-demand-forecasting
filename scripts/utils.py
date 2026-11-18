@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BOROUGHS = {"Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"}
 THRESHOLD_PERCENT = 1.0
 TZ = "America/New_York"
-SUPPORTED_MONTHS = ("2025-04", "2025-05", "2025-06")
+SUPPORTED_MONTHS = ("2025-04", "2025-05", "2025-06", "2025-07", "2025-08", "2025-09")
 PICKUP_COLUMNS = ("tpep_pickup_datetime", "PULocationID")
 UTILS_PATH = Path(__file__).resolve()
 

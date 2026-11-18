@@ -76,6 +76,52 @@ Prepared Parquet snapshots will be saved under ignored `data/processed/april_202
 
 ## Monthly quality-screening extension
 
+### Approved July–September expansion
+
+#### Recoverable Google Drive snapshot
+
+On November 16, 2026, the six April–September raw Parquet files, zone lookup and six validated monthly tables were uploaded to the separate [project data folder](https://drive.google.com/drive/folders/1NPvjaWVyGu1ljigLog4_YM-Seb8cHwEe), under `snapshot-v1-april-september-2025`. The 13 data files total 421,263,309 bytes. The `raw`, `reference` and `processed` subfolders preserve their roles. Prepared table filenames include the month.
+
+The [storage record](../configs/google_drive_storage.json) maps every Drive file ID to its original local path, size, SHA-256 and validation report. The [snapshot inventory](../configs/data_snapshot_v1.json) defines the selected inputs. All 13 Drive copies were downloaded to a separate temporary directory and matched their expected byte sizes and SHA-256 fingerprints. The [restoration report](../reports/data_versioning/google_drive_restore_v1.json) records the checks. Temporary restored copies were removed after verification.
+
+DVC with Google Drive support is resolved in `uv.lock` through the `data-versioning` extra. A separate `dvc-cache` folder is reserved for DVC. Local DVC initialization encountered a cloud-only `.git/info/exclude` file and was stopped. Keep the Git metadata available locally before retrying initialization. DVC authorization, pointer creation, push and pull verification remain pending. This backup was uploaded and restored using the connected Google Drive integration.
+
+On November 15, 2026 the user reported that the additional files were downloaded. All three local byte sizes match the official HTTP header checks. Their SHA-256 fingerprints and official catalog URLs are recorded in the manifest. Exact download dates and browser download origins remain unconfirmed.
+
+| Month | Local bytes | Intended use |
+|---|---:|---|
+| July 2025 | 66,943,728 | Rolling model comparison |
+| August 2025 | 62,293,743 | Interval calibration |
+| September 2025 | 72,432,945 | Final holdout |
+
+The monthly entry points now accept April–September. Apply the existing timestamp, geographic, coverage and reconciliation rules. September diagnostics support predefined integrity checks. Model choices and thresholds follow the approved experiment protocol. Registration establishes snapshot identity. Quality screening and exclusion reconciliation are separate steps.
+
+#### July–September date-exception review
+
+All 31 excerpted timestamps were independently compared with their source month boundaries. Each exclusion label matched, and direction counts matched the pinned inspection reports. Recorded and interpreted clock values matched in every excerpt. CSV byte fingerprints were retained in the [date-review record](../reports/data_quality/exclusion_date_review/20261116T045758712230Z/report.json).
+
+| Source month | Excluded dates and counts | Before month | At or after next month |
+|---|---|---:|---:|
+| July 2025 | January 1, 2009 (1), June 30, 2025 (6) | 7 | 0 |
+| August 2025 | January 1, 2009 (1), July 31, 2025 (15), September 1, 2025 (1) | 16 | 1 |
+| September 2025 | August 31, 2025 (6), October 1, 2025 (1) | 6 | 1 |
+
+Twenty-nine timestamps fall on a day immediately adjacent to the source month. The cause of the two January 2009 timestamps is unknown. Their values remain preserved, and the established monthly exclusions apply. This review does not establish corrected dates or cross-file duplication. Source timezone semantics remain an assumption.
+
+#### July–September hourly preparation
+
+Each monthly build verified the pinned screening and exclusion reports, manifest input sizes and hashes, all 262 NYC lookup zones, unique hourly keys, nonnegative integer counts, accepted-count reconciliation and the Parquet round-trip. All zone-hour combinations are retained, including zero observed-count cells.
+
+| Month | Hours per zone | Rows | Accepted pickups | Validation report |
+|---|---:|---:|---:|---|
+| July 2025 | 744 | 194,928 | 3,890,093 | [Validated](../reports/data_preparation/monthly/2025-07/20261116T045854716532Z/report.json) |
+| August 2025 | 744 | 194,928 | 3,565,907 | [Validated](../reports/data_preparation/monthly/2025-08/20261116T045915792847Z/report.json) |
+| September 2025 | 720 | 188,640 | 4,242,242 | [Validated](../reports/data_preparation/monthly/2025-09/20261116T045946621544Z/report.json) |
+
+Prepared files reside under ignored `data/processed/monthly/<month>/<run_id>/zone_hour_demand.parquet`. Their exact paths and SHA-256 hashes are in the validation reports. Zero observed counts describe accepted recorded pickups. Source completeness and unserved requests remain unobserved. September preparation uses the predefined integrity checks for the approved holdout.
+
+### April–June screening history
+
 November 7, 2026: May and June yellow-taxi source files are present and registered in the manifest with measured byte sizes, SHA-256 fingerprints, and browser-origin source URLs. Registration is not data-quality acceptance; exact download dates remain unconfirmed.
 
 `scripts/assess_month_quality.py --month YYYY-MM` generalizes the screening step for the approved April–June scope. The April entry point retains its historical report format. The new script verifies the manifest's `study_month`, derives half-open month bounds, preserves the existing rules, and writes unique report folders under `reports/data_quality/monthly/`. Months spanning clock changes are rejected pending a separate policy.

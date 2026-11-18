@@ -1,0 +1,42 @@
+{
+  "protocol_version": 1,
+  "status": "approved",
+  "approved_on": "2026-11-15",
+  "approval_source": "User agreed to the experiment proposal in chat.",
+  "historical_benchmark": {
+    "mlflow_run_id": "71dcb809d5c0409484d8b55b21751f17",
+    "protocol": "reports/final_evaluation/71dcb809d5c0409484d8b55b21751f17/protocol.json",
+    "metrics": "reports/final_evaluation/71dcb809d5c0409484d8b55b21751f17/metrics.csv"
+  },
+  "target": "Accepted NYC yellow-taxi pickups per TLC zone per hour",
+  "zone_count": 262,
+  "assumed_timezone": "America/New_York",
+  "interval_convention": "Start inclusive, end exclusive, local clock time",
+  "horizon_hours": 1,
+  "latest_available_pickup_lag_hours": 2,
+  "first_eligible_training_origin": "2025-04-08T01:00",
+  "development_folds": [
+    ["2025-07-01T00:00", "2025-07-08T00:00"],
+    ["2025-07-08T00:00", "2025-07-15T00:00"],
+    ["2025-07-15T00:00", "2025-07-22T00:00"],
+    ["2025-07-22T00:00", "2025-07-31T23:00"]
+  ],
+  "fit_policy": "Fit at each fold start using expanding history through start minus two hours, inclusive. Fit preprocessing on that history. Hold fitted parameters fixed within each fold and update available history hourly.",
+  "baselines": ["lag_2", "lag_24", "lag_168"],
+  "candidates": ["LightGBM", "XGBoost", "SARIMA", "Prophet", "LSTM"],
+  "metrics": ["pooled_WMAPE", "MAE", "RMSE"],
+  "selection": "Compare predictions on identical zone-hours pooled across July folds. Choose the eligible candidate with lowest pooled WMAPE, breaking ties at six decimal places by MAE, then listed candidate order. Compare with the lowest-WMAPE baseline. Require at least 5 percent relative WMAPE improvement and no more than 10 percent MAE degradation in any of the 20 highest-volume zones from the first fold training history. For a zero baseline MAE require zero candidate MAE. Use the best baseline if no candidate qualifies. Freeze per-family search grids and fallback rules before July scoring.",
+  "final_point_model_fit": "2025-08-01T00:00",
+  "calibration_window": ["2025-08-01T00:00", "2025-08-31T23:00"],
+  "interval_policy": "For the frozen point forecaster, use August absolute residuals per zone. For n residuals take the ceil((n+1)*0.90)-th smallest. Use forecast plus/minus this radius with lower bound clipped to zero. Report empirical coverage and mean width.",
+  "final_holdout": ["2025-09-01T00:00", "2025-10-01T00:00"],
+  "holdout_policy": "Freeze the August point model and interval radii before September scoring. Replay origins in order. Prior September pickups may enter lag features once available. Score once after model, baseline, metrics and planning rules are fixed.",
+  "local_budget": {
+    "cpu_threads": 4,
+    "parallel_experiments": 1,
+    "memory_target_gib": 6,
+    "persistent_growth_budget_gib": 5,
+    "temporary_budget_gib": 1,
+    "minimum_free_disk_gib": 10
+  }
+}

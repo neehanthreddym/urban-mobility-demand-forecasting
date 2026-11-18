@@ -1,0 +1,122 @@
+{
+  "snapshot_name": "april_september_2025",
+  "inventory_version": 1,
+  "recorded_on": "2026-11-16",
+  "status": "Fingerprints verified; DVC registration and external-drive restoration pending",
+  "storage_selection": "External drive selected by user; destination path pending connection",
+  "manifest_sha256": "aad764217768146eac59337b8c69972525ee6f2ed12357f4ac9f1c20adcc12d9",
+  "file_count": 13,
+  "total_size_bytes": 421263309,
+  "files": [
+    {
+      "path": "data/raw/yellow_tripdata_2025-04.parquet",
+      "role": "raw_trip_records",
+      "study_month": "2025-04",
+      "size_bytes": 67352824,
+      "sha256": "6f98938de9380a3f85600533816f0dc0e6d9b5b210e485d623952bac599bbe28",
+      "provenance_path": "data/manifest.json"
+    },
+    {
+      "path": "data/reference/taxi_zone_lookup.csv",
+      "role": "geographic_reference",
+      "study_month": null,
+      "size_bytes": 12331,
+      "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+      "provenance_path": "data/manifest.json"
+    },
+    {
+      "path": "data/raw/yellow_tripdata_2025-05.parquet",
+      "role": "raw_trip_records",
+      "study_month": "2025-05",
+      "size_bytes": 77837865,
+      "sha256": "7ef46bcd0fceee7f8c0bb38a532be05bceefabb512d4bb0b32a7727dd862b15c",
+      "provenance_path": "data/manifest.json"
+    },
+    {
+      "path": "data/raw/yellow_tripdata_2025-06.parquet",
+      "role": "raw_trip_records",
+      "study_month": "2025-06",
+      "size_bytes": 73542954,
+      "sha256": "1bea7f5b09c744414451fa7fef09fbc5a393ffb1621c859be6ba0df23a14e1b6",
+      "provenance_path": "data/manifest.json"
+    },
+    {
+      "path": "data/raw/yellow_tripdata_2025-07.parquet",
+      "role": "raw_trip_records",
+      "study_month": "2025-07",
+      "size_bytes": 66943728,
+      "sha256": "1efa6a0458dc60341f7f81dcbb5015af731f42d1a109f4e0d594dd46970fd4ef",
+      "provenance_path": "data/manifest.json"
+    },
+    {
+      "path": "data/raw/yellow_tripdata_2025-08.parquet",
+      "role": "raw_trip_records",
+      "study_month": "2025-08",
+      "size_bytes": 62293743,
+      "sha256": "b982ace703e3564d92e94edae5ec93515f4f1fb07a5b95e7404c32464c1a6a89",
+      "provenance_path": "data/manifest.json"
+    },
+    {
+      "path": "data/raw/yellow_tripdata_2025-09.parquet",
+      "role": "raw_trip_records",
+      "study_month": "2025-09",
+      "size_bytes": 72432945,
+      "sha256": "cd39b9901f01d1fd752d45cbaec91ee5f68c4dddf9e261e938c1dbab404644c7",
+      "provenance_path": "data/manifest.json"
+    },
+    {
+      "path": "data/processed/april_2025/20261106T041153628221Z/zone_hour_demand.parquet",
+      "role": "validated_monthly_zone_hour_counts",
+      "study_month": "2025-04",
+      "size_bytes": 132512,
+      "sha256": "0aefedccc8b1f2a4951a6a8fa73cb8258fdacd499e6732145870a54cf4909132",
+      "provenance_path": "reports/data_preparation/april_2025/20261106T041153628221Z/report.json",
+      "provenance_sha256": "4695b4221bdc1d5892435aba94a9c28d638edca8904707774e96fdd69366660a"
+    },
+    {
+      "path": "data/processed/monthly/2025-05/20261108T052612838884Z/zone_hour_demand.parquet",
+      "role": "validated_monthly_zone_hour_counts",
+      "study_month": "2025-05",
+      "size_bytes": 147708,
+      "sha256": "d3902d4137a331aa5d92dd9d78bf9c5ab3e77f425f5885ceddb501fe82d997e2",
+      "provenance_path": "reports/data_preparation/monthly/2025-05/20261108T052612838884Z/report.json",
+      "provenance_sha256": "a583076a46e3cb483c88f2728245b7744eb9467a8e81c92c10559f5fea405802"
+    },
+    {
+      "path": "data/processed/monthly/2025-06/20261108T055257560857Z/zone_hour_demand.parquet",
+      "role": "validated_monthly_zone_hour_counts",
+      "study_month": "2025-06",
+      "size_bytes": 141958,
+      "sha256": "ec0a2168dd56938241e296d34cd57c69e1889939fa9f4035892ba6f4c04b4562",
+      "provenance_path": "reports/data_preparation/monthly/2025-06/20261108T055257560857Z/report.json",
+      "provenance_sha256": "f7ac80ac2cb16be068a091e030755bc8a5f4a80ae6b7dd2949e5352eaaf15c61"
+    },
+    {
+      "path": "data/processed/monthly/2025-07/20261116T045854716532Z/zone_hour_demand.parquet",
+      "role": "validated_monthly_zone_hour_counts",
+      "study_month": "2025-07",
+      "size_bytes": 145415,
+      "sha256": "3bbfe5280d0eb0cb855025c83b006eccfdb30d001068b1f9e6ee665162328f8a",
+      "provenance_path": "reports/data_preparation/monthly/2025-07/20261116T045854716532Z/report.json",
+      "provenance_sha256": "9273acf331523d255f2ec2f8f02119ab0c961a72b2aecb83f610a808aa661060"
+    },
+    {
+      "path": "data/processed/monthly/2025-08/20261116T045915792847Z/zone_hour_demand.parquet",
+      "role": "validated_monthly_zone_hour_counts",
+      "study_month": "2025-08",
+      "size_bytes": 141609,
+      "sha256": "4e015f2d4babac8f4ec802f39f3ac22e7ecc7df0fca0f86c235ce10d6763fbe3",
+      "provenance_path": "reports/data_preparation/monthly/2025-08/20261116T045915792847Z/report.json",
+      "provenance_sha256": "7c20424865013dbb1c1aa40bd17b41ac6f11b6905de2999d227dad03f41021a1"
+    },
+    {
+      "path": "data/processed/monthly/2025-09/20261116T045946621544Z/zone_hour_demand.parquet",
+      "role": "validated_monthly_zone_hour_counts",
+      "study_month": "2025-09",
+      "size_bytes": 137717,
+      "sha256": "6b4215ccf5904a90434ea01d4d9beefebe877feb1bf4de03df3c5cc96be5ea8d",
+      "provenance_path": "reports/data_preparation/monthly/2025-09/20261116T045946621544Z/report.json",
+      "provenance_sha256": "1bd2237410ed243d09d6dba9ae09b1ebbb167121bf1c1c857ff2b6e4064c708c"
+    }
+  ]
+}

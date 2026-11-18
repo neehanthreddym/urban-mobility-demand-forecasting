@@ -188,7 +188,7 @@ def markdown(report: dict) -> str:
     lines += ["", "## Limitations", ""]
     lines.extend(f"- {item}" for item in report["limitations"])
     lines += ["", "Coverage flags are quality diagnostics, not causal findings or modeling features.",
-              "For June, do not use final-test-period patterns to change features, thresholds, or model choices.",
+              "For a designated final holdout, use these diagnostics only for predefined integrity checks.",
               "Do not silently amend exclusion rules in response to these diagnostics.", ""]
     return "\n".join(lines)
 

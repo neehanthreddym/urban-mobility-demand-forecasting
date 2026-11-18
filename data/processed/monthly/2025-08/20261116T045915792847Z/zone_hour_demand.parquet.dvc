@@ -1,0 +1,5 @@
+outs:
+- md5: 7721680ebda13da5418617d9e2f86786
+  size: 141609
+  hash: md5
+  path: zone_hour_demand.parquet

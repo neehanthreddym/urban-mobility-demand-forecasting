@@ -1,0 +1,70 @@
+{
+  "status": "MATCHED",
+  "total_rows_checked": 31,
+  "months": [
+    {
+      "month": "2025-07",
+      "status": "MATCHED",
+      "rows_checked": 7,
+      "dates": {
+        "2009-01-01": 1,
+        "2025-06-30": 6
+      },
+      "directions": {
+        "before_month": 7,
+        "on_or_after_next_month": 0
+      },
+      "earliest_timestamp": "2009-01-01T08:52:26",
+      "latest_timestamp": "2025-06-30T23:59:59",
+      "exclusions_report_path": "reports/data_quality/monthly_exclusions/2025-07/20261116T045215083340Z/report.json",
+      "exclusions_report_sha256": "9da36902a67be249d17638681b29cf3feab4d5577729be91d08db48904e53ba0",
+      "local_excerpt_path": "data/interim/monthly_exclusions/2025-07/20261116T045215083340Z/out_of_month_records.csv",
+      "local_excerpt_sha256": "52bfe7942e235a8245822a399bbe8f4d0e189b62291b949eb2344f550e53135a",
+      "excerpt_values_unchanged": true
+    },
+    {
+      "month": "2025-08",
+      "status": "MATCHED",
+      "rows_checked": 17,
+      "dates": {
+        "2009-01-01": 1,
+        "2025-07-31": 15,
+        "2025-09-01": 1
+      },
+      "directions": {
+        "before_month": 16,
+        "on_or_after_next_month": 1
+      },
+      "earliest_timestamp": "2009-01-01T12:52:15",
+      "latest_timestamp": "2025-09-01T00:00:29",
+      "exclusions_report_path": "reports/data_quality/monthly_exclusions/2025-08/20261116T045224641899Z/report.json",
+      "exclusions_report_sha256": "bfee50e7173e37f68d0f758df32bf5a3704666f035400c5fdf35b558df6233ba",
+      "local_excerpt_path": "data/interim/monthly_exclusions/2025-08/20261116T045224641899Z/out_of_month_records.csv",
+      "local_excerpt_sha256": "ff66e5085c80b7f2f7f1ab6d1a8eec63372c075d2f3e676d293902c374858eda",
+      "excerpt_values_unchanged": true
+    },
+    {
+      "month": "2025-09",
+      "status": "MATCHED",
+      "rows_checked": 7,
+      "dates": {
+        "2025-08-31": 6,
+        "2025-10-01": 1
+      },
+      "directions": {
+        "before_month": 6,
+        "on_or_after_next_month": 1
+      },
+      "earliest_timestamp": "2025-08-31T23:45:38",
+      "latest_timestamp": "2025-10-01T00:00:11",
+      "exclusions_report_path": "reports/data_quality/monthly_exclusions/2025-09/20261116T045230199526Z/report.json",
+      "exclusions_report_sha256": "17ba15f9df17975b769f7f70c0db9c0bd6d56643d987a354f810f005151c48b8",
+      "local_excerpt_path": "data/interim/monthly_exclusions/2025-09/20261116T045230199526Z/out_of_month_records.csv",
+      "local_excerpt_sha256": "79a0369cdaef78693db72bf5b3ff334757eccd336bec8c5e9911385c8c125f84",
+      "excerpt_values_unchanged": true
+    }
+  ],
+  "scope": "CSV timestamps independently checked against calendar boundaries and saved direction counts",
+  "timezone_assumption": "America/New_York recorded clock semantics remain unverified",
+  "treatment": "Exclude from source-file month using existing rules. Preserve original values. The cause of the 2009 values and cross-file duplication are unverified."
+}
