@@ -158,6 +158,28 @@ uv run --locked --extra modeling --extra data-versioning python scripts/build_ap
 
 The [May validation report](reports/data_preparation/monthly/2025-05/20261108T052612838884Z/report.json) records 262 zones, 744 hours per zone, 194,928 zone-hour rows and 4,581,602 accepted pickups.
 
+## Connect the benchmark stages
+
+Each preparation command prints its output report path. Pass that path
+explicitly to the next stage.
+
+| Script | Input arguments |
+|---|---|
+| `combine_zone_hours.py` | Uses the three validated monthly snapshots |
+| `prepare_forecast_features.py` | `--source-report` selects the combined-data report |
+| `score_validation_baselines.py` | `--source-report` selects the feature report |
+| `validate_lightgbm.py` | `--source-report` selects the feature report; `--baseline-report` selects its baseline results |
+
+The commands default to the original benchmark reports when these arguments
+are omitted. For a regenerated pipeline, supply the newly printed report
+paths.
+
+The regenerated April–June preparation and baseline stages reproduced
+572,208 zone-hours and weekly-baseline validation WMAPE of 23.935957%.
+The LightGBM loader accepted the new reports with 339,028 training rows
+and 87,770 validation rows. All 38 existing tests passed. Model fitting
+through the new command-line arguments remains to be verified.
+
 ## Combine April through June
 
 Run `uv run --locked --extra modeling --extra data-versioning python scripts/combine_zone_hours.py` from the project root with the three pinned monthly snapshots available locally. The [combined validation report](reports/data_preparation/april_june_2025/20261108T062052975430Z/report.json) records the input and output fingerprints and confirms 2,184 consecutive hours for each of 262 zones.

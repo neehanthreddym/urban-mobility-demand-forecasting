@@ -3,15 +3,15 @@
 import csv
 import fcntl
 import json
+import argparse
+import os
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 from time import perf_counter
-
 import pandas as pd
-
 from prepare_forecast_features import FIRST_TARGET, HOUR, TEST, VALIDATION
-from utils import ROOT, sha256
+from utils import ROOT, project_path, sha256
 
 SOURCE = ROOT / "reports/data_preparation/forecast_features/20261108T064005732515Z/report.json"
 # Insertion order implements the charter tie-break.
@@ -47,7 +47,11 @@ def main():
         Timestamped aggregate metrics, diagnostics, provenance and an experiment log entry.
     """
     started = perf_counter()
-    source = json.loads(SOURCE.read_text())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source-report", default=str(SOURCE), help="Forecast-feature validation report.")
+    args = parser.parse_args()
+    source_report = project_path(args.source_report)
+    source = json.loads(source_report.read_text())
     path = ROOT / source["dataset_path"]
     if source["status"] != "VALIDATED" or sha256(path) != source["dataset_sha256"]:
         raise ValueError("Feature file differs from validated snapshot")
@@ -95,7 +99,7 @@ def main():
     pd.concat(slices).to_csv(folder / "validation_slices.csv", index=False, na_rep="N/A")
     ranking.head(20).to_csv(folder / "top20_training_zones.csv", index=False)
     report = {"experiment_id": run, "source_sha256": source["dataset_sha256"],
-              "source_report": str(SOURCE.relative_to(ROOT)), "source_report_sha256": sha256(SOURCE),
+              "source_report": os.path.relpath(source_report, ROOT), "source_report_sha256": sha256(source_report),
               "script_sha256": sha256(Path(__file__)), "git_revision": subprocess.check_output(
                   ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
               "baseline_lags": BASELINES, "seed": "N/A (deterministic)",

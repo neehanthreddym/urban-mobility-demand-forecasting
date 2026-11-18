@@ -3,10 +3,10 @@
 import json
 from datetime import datetime, timezone
 from pathlib import Path
-
+import argparse
+import os
 import pandas as pd
-
-from utils import ROOT, TZ, sha256
+from utils import ROOT, TZ, project_path, sha256
 
 SOURCE = ROOT / "reports/data_preparation/april_june_2025/20261108T062052975430Z/report.json"
 KEY = ["pickup_zone_id", "hour_start"]
@@ -75,7 +75,11 @@ def main():
     Output:
         Timestamped local Parquet table and aggregate JSON validation report.
     """
-    source = json.loads(SOURCE.read_text())
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source-report", default=str(SOURCE), help="Combined April–June zone-hour validation report.")
+    args = parser.parse_args()
+    source_report = project_path(args.source_report)
+    source = json.loads(source_report.read_text())
     dataset = ROOT / source["dataset_path"]
     if source["status"] != "VALIDATED" or sha256(dataset) != source["dataset_sha256"]:
         raise ValueError("Combined snapshot differs from the validated input")
@@ -92,7 +96,7 @@ def main():
     restored["pickup_zone_id"] = restored["pickup_zone_id"].astype("category")
     pd.testing.assert_frame_equal(frame, restored)
     report = {"status": "VALIDATED", "rows": len(frame),
-              "source_report": str(SOURCE.relative_to(ROOT)), "source_report_sha256": sha256(SOURCE),
+              "source_report": os.path.relpath(source_report, ROOT), "source_report_sha256": sha256(source_report),
               "source_sha256": source["dataset_sha256"], "script_sha256": sha256(Path(__file__)),
               "dataset_path": str(output.relative_to(ROOT)), "dataset_sha256": sha256(output),
               "categorical_features": ["pickup_zone_id"],
