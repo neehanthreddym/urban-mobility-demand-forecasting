@@ -146,3 +146,19 @@ All 44 excerpted pickup timestamps matched their exclusion labels under the D05 
 | [June inspection](../reports/data_quality/monthly_exclusions/2025-06/20261108T040115260148Z/report.md) | May 31, 2025 (20) | 2025-05-31 22:34:26 | 2025-05-31 23:59:57 |
 
 Of the 44 timestamps, 43 fall on a calendar day immediately adjacent to the file month. The cause of the January 2009 timestamp in the May file is unknown. Retain the original values and exclude all 44 from their respective monthly counts. The review did not establish cross-file duplicates or a corrected pickup date.
+
+### Scope of completed quality checks
+
+Monthly screening checks input fingerprints, required pickup fields,
+timestamp validity, month boundaries, geographic eligibility and observed
+hourly coverage. Prepared tables are checked for count reconciliation
+and complete, unique zone-hour keys.
+
+Duplicate lookup LocationIDs are rejected. The report field
+`lookup.duplicate_ids` concerns the reference lookup, not trip records.
+
+Exact full-row trip duplicates and fare, passenger-count, distance or
+duration anomalies have not been profiled. These checks remain planned
+under Section 7 of the [project charter](PROJECT_CHARTER.md). Accepted
+record totals therefore do not establish unique physical trips or
+complete source coverage.

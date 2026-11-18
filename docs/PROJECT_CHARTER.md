@@ -130,10 +130,16 @@ Raw unit: one published trip record. Aggregated unit: one in-scope zone and one 
 | Outside NYC geography | Exclude as a scope rule, including unknown/non-borough entries; retain exclusion counts. |
 | Sparse or zero-demand zone | Retain every in-scope lookup zone. Fill a missing zone-hour with zero only after source-file and time-coverage checks pass. |
 | Missing/corrupt source file or suspicious missing time block | Fail the pipeline; preserve missingness rather than convert a suspected outage to zero. Inspect daily/hourly count continuity; unexplained citywide zero hours require review. |
-| Apparent duplicate records | Flag exact full-row duplicates. Preserve them in the primary target absent evidence that they are erroneous; do not deduplicate on pickup time and zone, which can describe different trips. |
-| Fare, passenger count, distance, or duration anomalies | Profile where available; do not exclude from pickup demand merely for unrelated anomalous values. Document any evidence-based rule change before modeling. |
+| Apparent duplicate records | Planned; not yet assessed. Flag exact full-row duplicates and preserve them in the primary target absent evidence that they are erroneous. Do not deduplicate on pickup time and zone, which can describe different trips. Duplicate lookup LocationIDs are checked separately. |
+| Fare, passenger count, distance, or duration anomalies | Planned; not yet assessed. Profile where available without excluding pickups solely for unrelated anomalous values. Document any evidence-based rule change before modeling. |
 | Quality acceptance threshold | Combined missing/unparseable pickup or missing/unmapped location must be at most 1% of file rows for automatic acceptance. More than 1% out-of-window rows also triggers review. These are proposed review gates, not observed rates. |
 | Coverage acceptance | All three files load; reference joins are validated; accepted counts reconcile exactly to aggregation; final zone-hour keys are unique and complete. |
+
+The current monthly quality assessment reads pickup timestamps and pickup
+zone IDs. It checks timestamp validity, month boundaries and geographic
+eligibility against the zone lookup. Full-row duplicate and unrelated
+anomaly profiling remain outstanding. Accepted record counts do not
+establish unique physical trips or complete coverage of taxi activity.
 
 Threshold breaches require a documented correction or explicit scope/protocol amendment; do not silently replace the study period or hide exclusions. Source completeness cannot be proven solely from nonzero counts.
 
@@ -191,6 +197,15 @@ LightGBM documents the Poisson objective, categorical support, and CPU determini
 ### Operational success
 
 Produce zone/hour forecasts, demand rankings, and a high-demand indicator defined as forecast exceeding the zone's initial-training 90th-percentile observed hourly count. Freeze the reference before validation; this is an unusual-activity flag, not a calibrated shortage probability.
+
+Implementation deviation in the original April–June benchmark: the
+percentile rule was predeclared, but the numeric zone references were
+materialized after final evaluation. They used only initial-training
+observations; validation and test observations were not used to calculate
+the percentiles. The requirement to freeze the numeric references before
+validation was therefore not met. The resulting flags support
+retrospective planning review. Future experiments must save and identify
+the reference values before validation.
 
 If a capacity scenario is included, express capacity as hypothetical pickups supportable per zone-hour and show `max(0, forecast - scenario capacity)`. Scenarios are user-supplied or explicitly illustrative, not estimated available taxis. Do not convert pickups to vehicle counts without a separately validated utilization/service-time model.
 
