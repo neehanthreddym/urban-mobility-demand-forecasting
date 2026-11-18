@@ -6,18 +6,19 @@ Forecast hourly recorded NYC taxi pickups by TLC zone using the CRISP-DM framewo
 
 ## Current status
 
-Reviewed November 17, 2026.
+Reviewed November 18, 2026.
 
 | Work | Status and evidence |
 |---|---|
 | April–June benchmark | Baselines, LightGBM validation, frozen June 15–30 evaluation, MLflow model reproduction and Tableau presentation complete |
 | April–September data | Six monthly zone-hour tables validated across 262 zones, including zero observed-count hours |
+| Spark aggregation | All six months rebuilt with PySpark and matched every reference row exactly: 1,150,704 zone-hours and 24,554,785 accepted pickups; [verification reports](#spark-aggregation-verification) |
 | Data versioning | Six raw files, one zone lookup and six prepared tables registered with DVC; user terminal output confirms Google Drive synchronization |
 | Recovery test | All 13 files restored from Google Drive into a separate checkout of commit `99ce2d6` with an empty cache; file sizes and SHA-256 fingerprints matched the committed inventory |
 | Expanded forecasting | July development folds, August calibration and September final holdout approved; expanded modeling and scoring pending |
-| Next action | Check Java compatibility and local resource availability, then implement and validate the PySpark preparation path |
+| Next action | Export Spark-derived monthly datasets and complete outstanding full-row duplicate and unrelated anomaly profiling |
 
-The [expansion protocol](configs/expansion_v1.json) defines the new evaluation dates. The [workflow](docs/EXPANSION_WORKFLOW.md) covers PySpark, additional features/models, intervals, SHAP, FastAPI, frontend, Power BI, simulation and monitoring. These are planned capabilities.
+The [expansion protocol](configs/expansion_v1.json) defines the new evaluation dates. Spark aggregation verification is complete. The [workflow](docs/EXPANSION_WORKFLOW.md) covers the remaining preparation work and planned features/models, intervals, SHAP, FastAPI, frontend, Power BI, simulation and monitoring.
 
 ## Tableau dashboard
 
@@ -36,7 +37,13 @@ uv sync --locked --extra modeling --extra data-versioning
 uv run --locked --extra modeling --extra data-versioning python --version
 ```
 
-The `modeling` extra supplies LightGBM and MLflow; `data-versioning` supplies DVC with Google Drive support. Commands below include both extras to keep the complete project environment available. The environment also includes the data-inspection, plotting, notebook and test tools. Scripts cover data preparation, forecast features, baseline and LightGBM evaluation, MLflow tracking, and planning exports.
+The `modeling` extra supplies LightGBM and MLflow; `data-versioning` supplies DVC with Google Drive support. Benchmark commands below include both extras. The environment also includes the data-inspection, plotting, notebook and test tools. Scripts cover data preparation, forecast features, baseline and LightGBM evaluation, MLflow tracking, and planning exports.
+
+Spark verification additionally requires Java 21 with `JAVA_HOME` set to its installation and the `spark` extra, which pins PySpark 4.2.0:
+
+```sh
+uv sync --locked --extra modeling --extra data-versioning --extra spark
+```
 
 ## Local data
 
@@ -158,6 +165,54 @@ uv run --locked --extra modeling --extra data-versioning python scripts/build_ap
 
 The [May validation report](reports/data_preparation/monthly/2025-05/20261108T052612838884Z/report.json) records 262 zones, 744 hours per zone, 194,928 zone-hour rows and 4,581,602 accepted pickups.
 
+## Spark aggregation verification
+
+PySpark 4.2.0 with Java 21 reproduced the April–September 2025 monthly pickup counts across all 262 NYC zones. Every zone-hour row matched its validated reference table exactly, including zero-count hours: **1,150,704 zone-hours and 24,554,785 accepted pickups** in total.
+
+| Month | Zone-hours | Accepted pickups | Verification report |
+|---|---:|---:|---|
+| April | 188,640 | 3,961,082 | [Verified](reports/data_preparation/spark/monthly/2025-04/20261118T073424016657Z/report.json) |
+| May | 194,928 | 4,581,602 | [Verified](reports/data_preparation/spark/monthly/2025-05/20261118T073622896609Z/report.json) |
+| June | 188,640 | 4,313,859 | [Verified](reports/data_preparation/spark/monthly/2025-06/20261118T073713404404Z/report.json) |
+| July | 194,928 | 3,890,093 | [Verified](reports/data_preparation/spark/monthly/2025-07/20261118T073749400058Z/report.json) |
+| August | 194,928 | 3,565,907 | [Verified](reports/data_preparation/spark/monthly/2025-08/20261118T073826018604Z/report.json) |
+| September | 188,640 | 4,242,242 | [Verified](reports/data_preparation/spark/monthly/2025-09/20261118T073911151090Z/report.json) |
+
+The command verifies source and lookup fingerprints, the selected reference dataset, month boundaries and expected dimensions before aggregation. It compares the rebuilt and reference rows in both directions. Each successful comparison records source, reference, code and lockfile fingerprints, runtime versions and the Spark application ID.
+
+From the project root, run one month with its original validated preparation report:
+
+```sh
+uv run --locked --extra modeling --extra data-versioning --extra spark \
+  python scripts/build_spark_zone_hour.py \
+  --month 2025-04 \
+  --reference-report reports/data_preparation/april_2025/20261106T041153628221Z/report.json
+```
+
+Successful runs save a report under `reports/data_preparation/spark/monthly/<month>/<run_id>/` and local event logs under Git-ignored `artifacts/spark/events/`. The current command rebuilds and compares tables during execution. Exporting new Spark datasets and profiling full-row trip duplicates and unrelated anomalies remain pending. September checks verify the predefined preparation rules; September model evaluation remains reserved for the expanded experiment.
+
+All **49 tests passed** in the user-run suite, including synthetic Spark tests covering month boundaries, repeated records, excluded zones, inactive zones and timestamp interpretation. To run the suite with Spark enabled:
+
+```sh
+uv run --locked --extra modeling --extra data-versioning --extra spark \
+  python -m pytest -p no:cacheprovider -q
+```
+
+PySpark emits a pandas 3 compatibility warning. The verified path uses Spark SQL and Parquet; Spark pandas integration has not been validated. Source timezone semantics remain the explicit D05 assumption, and accepted counts do not establish unique physical trips or complete source coverage.
+
+To inspect completed applications, start the History Server in a separate terminal from the project root:
+
+```sh
+mkdir -p artifacts/spark/events
+SPARK_PACKAGE_ROOT="$("$PWD/.venv/bin/python" -c \
+  'from pathlib import Path; import pyspark; print(Path(pyspark.__file__).resolve().parent)')"
+export SPARK_HISTORY_OPTS="-Dspark.history.fs.logDirectory=artifacts/spark/events"
+export SPARK_DAEMON_MEMORY=512m
+"$SPARK_PACKAGE_ROOT/bin/spark-class" org.apache.spark.deploy.history.HistoryServer
+```
+
+Keep that terminal running and open the [local History Server](http://localhost:18080). The foreground launcher and project-relative log directory handle spaces in the repository path. Application history remains available locally while its event logs are retained.
+
 ## Connect the benchmark stages
 
 Each preparation command prints its output report path. Pass that path
@@ -177,7 +232,7 @@ paths.
 The regenerated April–June preparation and baseline stages reproduced
 572,208 zone-hours and weekly-baseline validation WMAPE of 23.935957%.
 The LightGBM loader accepted the new reports with 339,028 training rows
-and 87,770 validation rows. All 38 existing tests passed.
+and 87,770 validation rows. The 38-test suite at that stage passed.
 
 Model fitting through the report arguments reproduced validation MAE
 4.353107973 and WMAPE 18.547864672%. MLflow run

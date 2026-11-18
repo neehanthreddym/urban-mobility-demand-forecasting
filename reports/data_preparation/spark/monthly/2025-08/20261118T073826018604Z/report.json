@@ -1,0 +1,62 @@
+{
+  "status": "VERIFIED",
+  "purpose": "Reproduce monthly pickup counts with Spark",
+  "month": "2025-08",
+  "run_at_utc": "2026-11-18T07:38:26.018604+00:00",
+  "inputs": [
+    {
+      "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/data/raw/yellow_tripdata_2025-08.parquet",
+      "size_bytes": 62293743,
+      "sha256": "b982ace703e3564d92e94edae5ec93515f4f1fb07a5b95e7404c32464c1a6a89",
+      "manifest_match": true,
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2025-08.parquet",
+      "download_date": null,
+      "download_date_status": "Requires confirmation; download completion reported on 2026-11-15"
+    },
+    {
+      "path": "/Users/neehanth/Documents/PortfolioProjects/Data Science Projects 2026/urban-mobility-demand-forecasting/data/reference/taxi_zone_lookup.csv",
+      "size_bytes": 12331,
+      "sha256": "1a99e105092230f8620f301edcca7f80d3080642ff404d28ed957d3fa222c8ed",
+      "manifest_match": true,
+      "source_url": "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv",
+      "download_date": "2026-11-03",
+      "download_date_status": "User-reported"
+    }
+  ],
+  "manifest_sha256": "aad764217768146eac59337b8c69972525ee6f2ed12357f4ac9f1c20adcc12d9",
+  "reference_report": "reports/data_preparation/monthly/2025-08/20261116T045915792847Z/report.json",
+  "reference_report_sha256": "7c20424865013dbb1c1aa40bd17b41ac6f11b6905de2999d227dad03f41021a1",
+  "reference_dataset_path": "data/processed/monthly/2025-08/20261116T045915792847Z/zone_hour_demand.parquet",
+  "reference_dataset_sha256": "4e015f2d4babac8f4ec802f39f3ac22e7ecc7df0fca0f86c235ce10d6763fbe3",
+  "script_sha256": "44cff33908201f5daff22e71e4381e90e419d343bcd99d6284c40fe52b138ef1",
+  "shared_validation_script_sha256": "261ea90db17fa54d3a6cd5fd962ddd169f8c00513bcd5b6a62f488cae4141fec",
+  "lockfile_sha256": "1d75a8cb88f9b12974d04c8e56617060010480b8b92cc939ef7b53db2719b03a",
+  "configuration": {
+    "start_inclusive": "2025-08-01T00:00:00-04:00",
+    "end_exclusive": "2025-09-01T00:00:00-04:00",
+    "timezone_assumption": "America/New_York"
+  },
+  "zones": 262,
+  "hours_per_zone": 744,
+  "rows": 194928,
+  "accepted_pickups": 3565907,
+  "zero_observed_zone_hours": 71912,
+  "exact_comparison_passed": true,
+  "application_id": "local-1794987507424",
+  "history_url": "http://localhost:18080/history/local-1794987507424/jobs/",
+  "event_log_directory": "artifacts/spark/events",
+  "environment": {
+    "python": "3.12.13",
+    "spark": "4.2.0",
+    "pyspark": "4.2.0",
+    "pandas": "3.1.0",
+    "pyarrow": "26.0.1",
+    "java": "21.0.13.1"
+  },
+  "limitations": [
+    "Source timezone semantics remain a D05 assumption.",
+    "Full-row trip duplicates and unrelated anomalies have not been profiled.",
+    "Observed counts do not prove source completeness.",
+    "Spark pandas integration has not been validated."
+  ]
+}
